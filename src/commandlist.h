@@ -8,13 +8,6 @@ namespace fccs {
 		public:
 			CommandList(ID3D12Device* pDevice, QueueRef* pQueue, CommandListParameters parameters);
 			void* getNativePtr() const noexcept;
-
-			void open();
-			void close();
-
-
-			std::shared_ptr<InternalCommandList> createInternalCommandList() const;
-
 		};
 		Microsoft::WRL::ComPtr<ID3D12Device> m_device;
 		QueueRef* m_queue;
