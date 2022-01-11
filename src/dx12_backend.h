@@ -6,6 +6,7 @@
 namespace fccs {
 
 	void createD3D12Device(ID3D12Device** ppDevice);
+	void WaitForFence(ID3D12Fence* fence, uint64_t value, HANDLE myevent);
 
 	class QueueRef {
 	public:
