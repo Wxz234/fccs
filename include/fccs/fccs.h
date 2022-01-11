@@ -2,6 +2,7 @@
 #define FCCS_API
 #include <memory>
 #include <cstdint>
+#include <cstddef>
 #include <d3d12.h>
 namespace fccs {
 
@@ -36,6 +37,8 @@ namespace fccs {
 
 		class ICommandList : public IRHIObject {
 		public:
+			virtual void open() = 0;
+			virtual void close() = 0;
 		};
 
 		typedef SharedPtr<ICommandList> CommandListHandle;
@@ -50,7 +53,8 @@ namespace fccs {
 
 		class IDevice : public IRHIObject {
 		public:
-			virtual void executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists) = 0;
+			virtual CommandListHandle createCommandList(const CommandListParameters& params = CommandListParameters()) = 0;
+			virtual void executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists, CommandQueue executionQueue = CommandQueue::Graphics) = 0;
 		};
 
 		typedef SharedPtr<IDevice> DeviceHandle;

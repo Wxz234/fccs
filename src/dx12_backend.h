@@ -20,8 +20,14 @@ namespace fccs {
 			queue = pQueue;
 			pDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 		}
-
-
+		uint64_t updateLastCompletedInstance()
+		{
+			if (lastCompletedInstance < lastSubmittedInstance)
+			{
+				lastCompletedInstance = fence->GetCompletedValue();
+			}
+			return lastCompletedInstance;
+		}
 	};
 
 	class InternalCommandList

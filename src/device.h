@@ -14,8 +14,10 @@ namespace fccs{
 
 			void waitForIdle();
 	
-			void executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists);
+			void executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists, CommandQueue executionQueue = CommandQueue::Graphics);
 			void* getNativePtr() const noexcept;
+			CommandListHandle createCommandList(const CommandListParameters& params = CommandListParameters());
+
 
 			Microsoft::WRL::ComPtr<ID3D12Device> m_device;
 			Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_GraphicsCommandQueue;
