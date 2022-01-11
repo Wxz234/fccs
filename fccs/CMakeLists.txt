@@ -1,8 +1,0 @@
-cmake_minimum_required(VERSION 3.16)
-project(fccs) 
-set(CMAKE_CXX_STANDARD 17)
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-	add_subdirectory(src)
-else()
-	message(FATAL_ERROR "Not supported.")
-endif()
