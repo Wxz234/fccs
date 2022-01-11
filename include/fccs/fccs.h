@@ -50,7 +50,6 @@ namespace fccs {
 
 		class IDevice : public IRHIObject {
 		public:
-			virtual CommandListHandle createCommandList(const CommandListParameters& params = CommandListParameters()) = 0;
 			virtual void executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists) = 0;
 		};
 

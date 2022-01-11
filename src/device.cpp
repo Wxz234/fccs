@@ -54,11 +54,6 @@ namespace fccs {
 		void Device::waitForIdle() {
 			for (const auto& pQueue : m_Queues)
 			{
-
-				if (pQueue->updateLastCompletedInstance() < pQueue->lastSubmittedInstance)
-				{
-					WaitForFence(pQueue->fence.Get(), pQueue->lastSubmittedInstance, m_fenceEvent.Get());
-				}
 			}
 		}
 
@@ -66,9 +61,6 @@ namespace fccs {
 
 		}
 
-		CommandListHandle Device::createCommandList(const CommandListParameters& params) {
-			return CommandListHandle();
-		}
 		void* Device::getNativePtr() const noexcept {
 			return m_device.Get();
 		}
