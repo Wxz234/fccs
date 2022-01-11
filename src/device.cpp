@@ -62,6 +62,10 @@ namespace fccs {
 			}
 		}
 
+		void Device::executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists) {
+
+		}
+
 		CommandListHandle Device::createCommandList(const CommandListParameters& params) {
 			return CommandListHandle();
 		}

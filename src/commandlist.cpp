@@ -39,32 +39,7 @@ namespace fccs {
 		}
 
 		void CommandList::open() {
-			uint64_t completedInstance = m_queue->updateLastCompletedInstance();
 
-			std::shared_ptr<InternalCommandList> chunk;
-
-			if (!m_CommandListPool.empty())
-			{
-				chunk = m_CommandListPool.front();
-
-				if (chunk->lastSubmittedInstance <= completedInstance)
-				{
-					chunk->allocator->Reset();
-					chunk->commandList->Reset(chunk->allocator.Get(), nullptr);
-					m_CommandListPool.pop_front();
-				}
-				else
-				{
-					chunk = nullptr;
-				}
-			}
-
-			if (chunk == nullptr)
-			{
-				chunk = createInternalCommandList();
-			}
-
-			m_ActiveCommandList = chunk;
 		}
 
 		void CommandList::close() {

@@ -13,7 +13,8 @@ namespace fccs{
 			~Device();
 
 			void waitForIdle();
-			CommandListHandle Device::createCommandList(const CommandListParameters& params);
+			CommandListHandle Device::createCommandList(const CommandListParameters& params = CommandListParameters());
+			void executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists);
 			void* getNativePtr() const noexcept;
 
 			Microsoft::WRL::ComPtr<ID3D12Device> m_device;
