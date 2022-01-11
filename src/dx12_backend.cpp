@@ -1,7 +1,5 @@
 #include "dx12_backend.h"
 
-#include <wrl/client.h>
-
 namespace fccs {
 	void createD3D12Device(ID3D12Device** ppDevice) {
 		*ppDevice = nullptr;
