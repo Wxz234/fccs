@@ -1,7 +1,5 @@
 #include "device.h"
 
-#include "dx12_backend.h"
-
 namespace fccs {
 	namespace rhi {
 
@@ -43,6 +41,10 @@ namespace fccs {
 				m_device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&m_CopyCommandQueue));
 			}
 
+			m_Queues[int(CommandQueue::Graphics)] = std::make_unique<QueueRef>(m_device.Get(), m_GraphicsCommandQueue.Get());
+			m_Queues[int(CommandQueue::Compute)] = std::make_unique<QueueRef>(m_device.Get(), m_ComputeCommandQueue.Get());
+			m_Queues[int(CommandQueue::Copy)] = std::make_unique<QueueRef>(m_device.Get(), m_CopyCommandQueue.Get());
+
 			m_fenceEvent.Attach(CreateEvent(nullptr, false, false, nullptr));
 		}
 		Device::~Device() {
@@ -50,7 +52,14 @@ namespace fccs {
 		}
 
 		void Device::waitForIdle() {
+			for (const auto& pQueue : m_Queues)
+			{
 
+				if (pQueue->updateLastCompletedInstance() < pQueue->lastSubmittedInstance)
+				{
+					WaitForFence(pQueue->fence.Get(), pQueue->lastSubmittedInstance, m_fenceEvent.Get());
+				}
+			}
 		}
 
 		CommandListHandle Device::createCommandList(const CommandListParameters& params) {
