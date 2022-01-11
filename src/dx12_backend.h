@@ -8,6 +8,14 @@ namespace fccs {
 	void createD3D12Device(ID3D12Device** ppDevice);
 	void WaitForFence(ID3D12Fence* fence, uint64_t value, HANDLE myevent);
 
+	class InternalCommandList
+	{
+	public:
+		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> allocator;
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList;
+		uint64_t lastSubmittedInstance = 0;
+	};
+
 	class QueueRef {
 	public:
 		Microsoft::WRL::ComPtr<ID3D12CommandQueue> queue;
