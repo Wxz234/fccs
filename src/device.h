@@ -1,9 +1,7 @@
 #pragma once
 #include <fccs/fccs.h>
 
-#include <wrl.h>
-#include <array>
-#include "dx12_backend.h"
+#include <wrl/client.h>
 
 namespace fccs{
 	namespace rhi {
@@ -13,20 +11,9 @@ namespace fccs{
 			~Device();
 
 			void waitForIdle();
-	
-			void executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists, CommandQueue executionQueue = CommandQueue::Graphics);
 			void* getNativePtr() const noexcept;
-			CommandListHandle createCommandList(const CommandListParameters& params = CommandListParameters());
-
-
 			Microsoft::WRL::ComPtr<ID3D12Device> m_device;
-			Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_GraphicsCommandQueue;
-			Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_ComputeCommandQueue;
-			Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_CopyCommandQueue;
 
-			Microsoft::WRL::Wrappers::Event m_fenceEvent;
-
-			std::array<std::unique_ptr<QueueRef>, (int)CommandQueue::Count> m_Queues;
 		};
 
 	}

@@ -46,15 +46,10 @@ namespace fccs {
 		struct DeviceDesc
 		{
 			ID3D12Device* pDevice = nullptr;
-			ID3D12CommandQueue* pGraphicsCommandQueue = nullptr;
-			ID3D12CommandQueue* pComputeCommandQueue = nullptr;
-			ID3D12CommandQueue* pCopyCommandQueue = nullptr;
 		};
 
 		class IDevice : public IRHIObject {
 		public:
-			virtual CommandListHandle createCommandList(const CommandListParameters& params = CommandListParameters()) = 0;
-			virtual void executeCommandLists(ICommandList* const* pCommandLists, size_t numCommandLists, CommandQueue executionQueue = CommandQueue::Graphics) = 0;
 		};
 
 		typedef SharedPtr<IDevice> DeviceHandle;
