@@ -21,7 +21,7 @@ namespace fccs {
 			virtual void* getNativePtr() const noexcept = 0;
 		};
 
-		enum class CommandQueue : uint8_t
+		enum class CommandQueueType : uint8_t
 		{
 			Graphics = 0,
 			Compute,
@@ -30,10 +30,10 @@ namespace fccs {
 			Count,
 		};
 
-		struct CommandListParameters {
-			CommandQueue queueType = CommandQueue::Graphics;
+		class ICommandQueue : public IRHIObject {
+		public:
 		};
-
+		typedef SharedPtr<ICommandQueue> CommandQueueHandle;
 
 		class ICommandList : public IRHIObject {
 		public:
