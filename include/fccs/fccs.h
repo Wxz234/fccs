@@ -26,8 +26,6 @@ namespace fccs {
 			Graphics = 0,
 			Compute,
 			Copy,
-
-			Count,
 		};
 
 		class ICommandQueue : public IRHIObject {
