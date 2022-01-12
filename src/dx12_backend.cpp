@@ -31,35 +31,33 @@ namespace fccs {
 		ID3D12CommandAllocator* getCanUseAllocatorByDeviceAndType(ID3D12Device* pDevice, rhi::CommandQueueType type) {
 			//if
 			CmdAllocator tempAlloc = {};
-			{
-				std::lock_guard<std::mutex> lck(mtx);
-				for (auto iter = canUseAllocator.begin(); iter != canUseAllocator.end(); ++iter) {
-					if (iter->device == pDevice && iter->type == type) {
-						tempAlloc = *iter;
-						tempAlloc.cmdAllocator->Reset();
-						canUseAllocator.erase(iter);
-						break;
-					}
+			
+			std::lock_guard<std::mutex> lck(mtx);
+			for (auto iter = canUseAllocator.begin(); iter != canUseAllocator.end(); ++iter) {
+				if (iter->device == pDevice && iter->type == type) {
+					tempAlloc = *iter;
+					tempAlloc.cmdAllocator->Reset();
+					canUseAllocator.erase(iter);
+					break;
 				}
-
-				if (!tempAlloc.device) {
-					if (type == rhi::CommandQueueType::Graphics) {
-						pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&tempAlloc.cmdAllocator));
-					}
-					else if (type == rhi::CommandQueueType::Compute) {
-						pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&tempAlloc.cmdAllocator));
-					}
-					else {
-						pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COPY, IID_PPV_ARGS(&tempAlloc.cmdAllocator));
-					}
-					tempAlloc.device = pDevice;
-					tempAlloc.type = type;
-				}
-
-				busyAllocator.emplace_back(tempAlloc);
 			}
 
-			return tempAlloc.cmdAllocator.Get();
+			if (!tempAlloc.device) {
+				if (type == rhi::CommandQueueType::Graphics) {
+					pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&tempAlloc.cmdAllocator));
+				}
+				else if (type == rhi::CommandQueueType::Compute) {
+					pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&tempAlloc.cmdAllocator));
+				}
+				else {
+					pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COPY, IID_PPV_ARGS(&tempAlloc.cmdAllocator));
+				}
+				tempAlloc.device = pDevice;
+				tempAlloc.type = type;
+			}
+
+			busyAllocator.emplace_back(tempAlloc);
+			return busyAllocator.back().cmdAllocator.Get();
 		}
 
 		void updateBusyAllocator(ID3D12CommandAllocator* pAllocator, ID3D12Fence* pFence, uint64_t submitValue) {

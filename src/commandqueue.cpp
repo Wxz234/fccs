@@ -1,5 +1,6 @@
 #include "commandqueue.h"
 #include "commandlist.h"
+#include "dx12_backend.h"
 #include <vector>
 
 namespace fccs {
@@ -23,6 +24,13 @@ namespace fccs {
 			submitValue = 0;
 		}
 
+		CommandQueue::~CommandQueue() {
+			submitValue++;
+			m_queue->Signal(m_fence.Get(), submitValue);
+			m_fence->SetEventOnCompletion(submitValue, m_event.Get());
+			WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
+		}
+
 		uint64_t CommandQueue::getCompletedValue() {
 			return m_fence->GetCompletedValue();
 		}
@@ -38,7 +46,10 @@ namespace fccs {
 			submitValue++;
 			m_queue->Signal(m_fence.Get(), submitValue);
 
-			//update cmdalloc
+			for (size_t i = 0; i < NumCommandLists; i++)
+			{
+				updateBusyAllocator(static_cast<CommandList*>(ppCommandLists[i])->m_Alloc, m_fence.Get(), submitValue);
+			}
 		}
 
 	}

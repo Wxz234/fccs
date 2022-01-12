@@ -1,5 +1,6 @@
 #include "device.h"
-
+#include "commandlist.h"
+#include "commandqueue.h"
 #include "dx12_backend.h"
 namespace fccs {
 	namespace rhi {
@@ -18,6 +19,13 @@ namespace fccs {
 
 		void Device::waitForIdle() {
 
+		}
+
+		CommandListHandle Device::createCommandList(CommandQueueType type) {
+			return CommandListHandle(new CommandList(m_device.Get(), type));
+		}
+		CommandQueueHandle Device::createCommandQueue(CommandQueueType type) {
+			return CommandQueueHandle(new CommandQueue(m_device.Get(), type));
 		}
 
 

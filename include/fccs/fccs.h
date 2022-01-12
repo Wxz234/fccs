@@ -48,6 +48,8 @@ namespace fccs {
 
 		class IDevice : public IRHIObject {
 		public:
+			virtual CommandListHandle createCommandList(CommandQueueType type) = 0;
+			virtual CommandQueueHandle createCommandQueue(CommandQueueType type) = 0;
 		};
 
 		typedef SharedPtr<IDevice> DeviceHandle;
