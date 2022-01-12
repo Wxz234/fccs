@@ -1,5 +1,6 @@
 #include "dx12_backend.h"
 
+#include <wrl/client.h>
 namespace fccs {
 	void createD3D12Device(ID3D12Device** ppDevice) {
 		*ppDevice = nullptr;
@@ -8,6 +9,11 @@ namespace fccs {
 		Microsoft::WRL::ComPtr<ID3D12Device> device;
 		createDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&device));
 		*ppDevice = device.Detach();
+	}
+
+
+	void createCommandAllocatorInPool(ID3D12Device* pDevice) {
+		//allocatorPool.createCommandAllocatorQueue(pDevice);
 	}
 
 }
