@@ -28,18 +28,18 @@ namespace fccs {
 			Copy,
 		};
 
-		class ICommandQueue : public IRHIObject {
-		public:
-		};
-		typedef SharedPtr<ICommandQueue> CommandQueueHandle;
-
 		class ICommandList : public IRHIObject {
 		public:
 			virtual void open() = 0;
 			virtual void close() = 0;
 		};
-
 		typedef SharedPtr<ICommandList> CommandListHandle;
+
+		class ICommandQueue : public IRHIObject {
+		public:
+			virtual void executeCommandLists(uint32_t NumCommandLists, ICommandList* const* ppCommandLists) = 0;
+		};
+		typedef SharedPtr<ICommandQueue> CommandQueueHandle;
 
 		struct DeviceDesc
 		{

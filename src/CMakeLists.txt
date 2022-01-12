@@ -3,6 +3,7 @@ add_library(fccs STATIC
 "device.cpp"
 "dx12_backend.cpp"
 "commandlist.cpp"
+"commandqueue.cpp"
 )
 
 target_include_directories(fccs PUBLIC "${PROJECT_SOURCE_DIR}/include")

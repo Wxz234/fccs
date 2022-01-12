@@ -11,7 +11,6 @@ namespace fccs {
 			else {
 				createD3D12Device(&m_device);
 			}
-			createCommandAllocatorInPool(m_device.Get());
 		}
 		Device::~Device() {
 
