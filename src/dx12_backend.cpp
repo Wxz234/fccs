@@ -90,4 +90,37 @@ namespace fccs {
 		cmd_Pool.updateBusyAllocator(pAllocator, pFence, submitValue);
 	}
 
+	namespace rhi {
+		D3D12_RESOURCE_STATES convertResourceStates(ResourceStates stateBits)
+		{
+			if (stateBits == ResourceStates::Common)
+				return D3D12_RESOURCE_STATE_COMMON;
+
+			D3D12_RESOURCE_STATES result = D3D12_RESOURCE_STATE_COMMON; // also 0
+
+			if ((stateBits & ResourceStates::ConstantBuffer) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER;
+			if ((stateBits & ResourceStates::VertexBuffer) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER;
+			if ((stateBits & ResourceStates::IndexBuffer) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_INDEX_BUFFER;
+			if ((stateBits & ResourceStates::IndirectArgument) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT;
+			if ((stateBits & ResourceStates::ShaderResource) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE | D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+			if ((stateBits & ResourceStates::UnorderedAccess) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+			if ((stateBits & ResourceStates::RenderTarget) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_RENDER_TARGET;
+			if ((stateBits & ResourceStates::DepthWrite) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_DEPTH_WRITE;
+			if ((stateBits & ResourceStates::DepthRead) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_DEPTH_READ;
+			if ((stateBits & ResourceStates::StreamOut) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_STREAM_OUT;
+			if ((stateBits & ResourceStates::CopyDest) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_COPY_DEST;
+			if ((stateBits & ResourceStates::CopySource) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_COPY_SOURCE;
+			if ((stateBits & ResourceStates::ResolveDest) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_RESOLVE_DEST;
+			if ((stateBits & ResourceStates::ResolveSource) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_RESOLVE_SOURCE;
+			if ((stateBits & ResourceStates::Present) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_PRESENT;
+			if ((stateBits & ResourceStates::AccelStructRead) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE;
+			if ((stateBits & ResourceStates::AccelStructWrite) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE;
+			if ((stateBits & ResourceStates::AccelStructBuildInput) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+			if ((stateBits & ResourceStates::AccelStructBuildBlas) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE;
+			if ((stateBits & ResourceStates::ShadingRateSurface) != ResourceStates::Unknown) result |= D3D12_RESOURCE_STATE_SHADING_RATE_SOURCE;
+
+			return result;
+		}
+	}
+
 }
