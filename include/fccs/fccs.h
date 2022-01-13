@@ -21,6 +21,10 @@ namespace fccs {
 			virtual void* getNativePtr() const noexcept = 0;
 		};
 
+		enum class ResourceStates : uint32_t {
+			Unknown			= 0
+		};
+
 		enum class CommandQueueType : uint8_t
 		{
 			Graphics = 0,
