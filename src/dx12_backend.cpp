@@ -61,22 +61,20 @@ namespace fccs {
 		}
 
 		void updateBusyAllocator(ID3D12CommandAllocator* pAllocator, ID3D12Fence* pFence, uint64_t submitValue) {
-			{
-				std::lock_guard<std::mutex> lck(mtx);
+			std::lock_guard<std::mutex> lck(mtx);
 		
-				auto iter = busyAllocator.begin();
-				while (iter != busyAllocator.end()) {
-					if (iter->cmdAllocator.Get() == pAllocator) {
-						iter->fence = pFence;
-						iter->submitValue = submitValue;
-					}
-					if (iter->fence && iter->submitValue != 0 && iter->fence->GetCompletedValue() >= iter->submitValue) {
-						canUseAllocator.emplace_back(*iter);
-						iter = busyAllocator.erase(iter);
-					}
-					else {
-						++iter;
-					}
+			auto iter = busyAllocator.begin();
+			while (iter != busyAllocator.end()) {
+				if (iter->cmdAllocator.Get() == pAllocator) {
+					iter->fence = pFence;
+					iter->submitValue = submitValue;
+				}
+				if (iter->fence && iter->submitValue != 0 && iter->fence->GetCompletedValue() >= iter->submitValue) {
+					canUseAllocator.emplace_back(*iter);
+					iter = busyAllocator.erase(iter);
+				}
+				else {
+					++iter;
 				}
 			}
 		}
