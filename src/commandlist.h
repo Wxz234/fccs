@@ -7,12 +7,12 @@ namespace fccs {
 		class CommandList : public ICommandList {
 		public:
 			CommandList(ID3D12Device* pDevice, CommandQueueType type);
-			void* getNativePtr() const noexcept {
+			void* GetNativePtr() const noexcept {
 				return m_mainLists.Get();
 			}
 
-			void open();
-			void close();
+			void Open();
+			void Close();
 			
 			ID3D12CommandAllocator* m_Alloc;
 			ID3D12Device* m_device;

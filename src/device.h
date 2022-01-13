@@ -10,10 +10,10 @@ namespace fccs{
 			Device(const DeviceDesc& desc);
 			~Device();
 
-			CommandListHandle createCommandList(CommandQueueType type);
-			CommandQueueHandle createCommandQueue(CommandQueueType type);
+			CommandListHandle CreateCommandList(CommandQueueType type);
+			CommandQueueHandle CreateCommandQueue(CommandQueueType type);
 			void waitForIdle();
-			void* getNativePtr() const noexcept;
+			void* GetNativePtr() const noexcept;
 			Microsoft::WRL::ComPtr<ID3D12Device> m_device;
 
 		};

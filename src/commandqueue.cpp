@@ -35,11 +35,11 @@ namespace fccs {
 			return m_fence->GetCompletedValue();
 		}
 
-		void CommandQueue::executeCommandLists(uint32_t NumCommandLists, ICommandList* const* ppCommandLists) {
+		void CommandQueue::ExecuteCommandLists(uint32_t NumCommandLists, ICommandList* const* ppCommandLists) {
 			std::vector<ID3D12CommandList*> m_CommandListsToExecute(NumCommandLists);
 			for (size_t i = 0; i < NumCommandLists; i++)
 			{
-				m_CommandListsToExecute[i] = (ID3D12CommandList*)(static_cast<CommandList*>(ppCommandLists[i])->getNativePtr());
+				m_CommandListsToExecute[i] = (ID3D12CommandList*)(static_cast<CommandList*>(ppCommandLists[i])->GetNativePtr());
 			}
 			
 			m_queue->ExecuteCommandLists(NumCommandLists, m_CommandListsToExecute.data());

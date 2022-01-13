@@ -20,12 +20,12 @@ namespace fccs {
 			device8->Release();
 		}
 
-		void CommandList::open() {
+		void CommandList::Open() {
 			m_Alloc = getCommandAllocatorInPool(m_device, m_Desc);
 			m_mainLists->Reset(m_Alloc, nullptr);
 		}
 
-		void CommandList::close() {
+		void CommandList::Close() {
 			m_mainLists->Close();
 		}
 

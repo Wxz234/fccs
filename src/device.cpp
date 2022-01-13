@@ -21,21 +21,21 @@ namespace fccs {
 
 		}
 
-		CommandListHandle Device::createCommandList(CommandQueueType type) {
+		CommandListHandle Device::CreateCommandList(CommandQueueType type) {
 			return CommandListHandle(new CommandList(m_device.Get(), type));
 		}
-		CommandQueueHandle Device::createCommandQueue(CommandQueueType type) {
+		CommandQueueHandle Device::CreateCommandQueue(CommandQueueType type) {
 			return CommandQueueHandle(new CommandQueue(m_device.Get(), type));
 		}
 
 
 
-		void* Device::getNativePtr() const noexcept {
+		void* Device::GetNativePtr() const noexcept {
 			return m_device.Get();
 		}
 
 
-		FCCS_API DeviceHandle createDeivce(const DeviceDesc& desc) {
+		FCCS_API DeviceHandle CreateDeivce(const DeviceDesc& desc) {
 			return DeviceHandle(new Device(desc));
 		}
 	}

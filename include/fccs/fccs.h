@@ -18,7 +18,7 @@ namespace fccs {
 
 		class IRHIObject : public IResource {
 		public:
-			virtual void* getNativePtr() const noexcept = 0;
+			virtual void* GetNativePtr() const noexcept = 0;
 		};
 
 		enum class ResourceStates : uint32_t {
@@ -34,14 +34,14 @@ namespace fccs {
 
 		class ICommandList : public IRHIObject {
 		public:
-			virtual void open() = 0;
-			virtual void close() = 0;
+			virtual void Open() = 0;
+			virtual void Close() = 0;
 		};
 		typedef SharedPtr<ICommandList> CommandListHandle;
 
 		class ICommandQueue : public IRHIObject {
 		public:
-			virtual void executeCommandLists(uint32_t NumCommandLists, ICommandList* const* ppCommandLists) = 0;
+			virtual void ExecuteCommandLists(uint32_t NumCommandLists, ICommandList* const* ppCommandLists) = 0;
 		};
 		typedef SharedPtr<ICommandQueue> CommandQueueHandle;
 
@@ -52,11 +52,11 @@ namespace fccs {
 
 		class IDevice : public IRHIObject {
 		public:
-			virtual CommandListHandle createCommandList(CommandQueueType type) = 0;
-			virtual CommandQueueHandle createCommandQueue(CommandQueueType type) = 0;
+			virtual CommandListHandle CreateCommandList(CommandQueueType type) = 0;
+			virtual CommandQueueHandle CreateCommandQueue(CommandQueueType type) = 0;
 		};
 
 		typedef SharedPtr<IDevice> DeviceHandle;
-		FCCS_API DeviceHandle createDeivce(const DeviceDesc& desc);
+		FCCS_API DeviceHandle CreateDeivce(const DeviceDesc& desc);
 	}
 }

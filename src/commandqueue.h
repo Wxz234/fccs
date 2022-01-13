@@ -10,9 +10,9 @@ namespace fccs {
 		public:
 			CommandQueue(ID3D12Device* pDevice, CommandQueueType type);
 			~CommandQueue();
-			void executeCommandLists(uint32_t NumCommandLists, ICommandList* const* ppCommandLists);
+			void ExecuteCommandLists(uint32_t NumCommandLists, ICommandList* const* ppCommandLists);
 			uint64_t getCompletedValue();
-			void* getNativePtr() const noexcept {
+			void* GetNativePtr() const noexcept {
 				return m_queue.Get();
 			}
 			ID3D12Device* m_device;
