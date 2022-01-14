@@ -4,6 +4,7 @@ add_library(fccs STATIC
 "dx12_backend.cpp"
 "commandlist.cpp"
 "commandqueue.cpp"
+"window.cpp"
 )
 
 target_include_directories(fccs PUBLIC "${PROJECT_SOURCE_DIR}/include")

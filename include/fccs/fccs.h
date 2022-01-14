@@ -120,6 +120,9 @@ namespace fccs {
 	}
 
 	namespace window {
+		class ISwapChain :public IResource {
+		public:
+		};
 		class IWindow : public IResource {
 		public:
 		};
