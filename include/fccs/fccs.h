@@ -118,4 +118,10 @@ namespace fccs {
 		typedef SharedPtr<IDevice> DeviceHandle;
 		FCCS_API DeviceHandle CreateDeivce(const DeviceDesc& desc);
 	}
+
+	namespace window {
+		class IWindow : public IResource {
+		public:
+		};
+	}
 }
