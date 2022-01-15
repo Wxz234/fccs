@@ -3,9 +3,9 @@
 #include <memory>
 #include <cstdint>
 #include <cstddef>
-#include <d3d12.h>
 #include <type_traits>
-
+#include <string>
+#include <d3d12.h>
 #define FCCS_BITMASK_OPS(_BITMASK)																					\
 [[nodiscard]] constexpr _BITMASK operator&(_BITMASK _Left, _BITMASK _Right) noexcept {								\
     using _IntTy = ::std::underlying_type_t<_BITMASK>;																\
@@ -116,15 +116,28 @@ namespace fccs {
 		};
 
 		typedef SharedPtr<IDevice> DeviceHandle;
-		FCCS_API DeviceHandle CreateDeivce(const DeviceDesc& desc);
+		FCCS_API DeviceHandle CreateDeivce(const DeviceDesc& desc = DeviceDesc());
 	}
 
 	namespace window {
 		class ISwapChain :public IResource {
 		public:
 		};
+		typedef SharedPtr<ISwapChain> SwapChainHandle;
+		struct WindowDesc
+		{
+			uint32_t width = 800;
+			uint32_t height = 600;
+			std::wstring title = L"fccs";
+		};
+
 		class IWindow : public IResource {
 		public:
+			virtual void OpenWindow() = 0;
 		};
+
+		typedef SharedPtr<IWindow> WindowHandle;
+
+		FCCS_API WindowHandle CreateDeivce(const WindowDesc& desc = WindowDesc());
 	}
 }
