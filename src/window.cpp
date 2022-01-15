@@ -15,6 +15,12 @@ namespace fccs {
 
         switch (message)
         {
+        case WM_CREATE:
+            {
+                LPCREATESTRUCT pCreateStruct = reinterpret_cast<LPCREATESTRUCT>(lParam);
+                SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pCreateStruct->lpCreateParams));
+            }
+            return 0;
         case WM_PAINT:
             if (s_in_sizemove && game)
             {
@@ -34,9 +40,9 @@ namespace fccs {
                 if (!s_minimized)
                 {
                     s_minimized = true;
-                    if (!s_in_suspend && game) {
-                        //game->OnSuspending();
-                    }
+                    //if (!s_in_suspend && game) {
+                    //    //game->OnSuspending();
+                    //}
                        
                     s_in_suspend = true;
                 }
@@ -44,15 +50,15 @@ namespace fccs {
             else if (s_minimized)
             {
                 s_minimized = false;
-                if (s_in_suspend && game) {
-                    //game->OnResuming();
-                }
+                //if (s_in_suspend && game) {
+                //    //game->OnResuming();
+                //}
                 s_in_suspend = false;
             }
-            else if (!s_in_sizemove && game)
-            {
-                //game->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
-            }
+            //else if (!s_in_sizemove && game)
+            //{
+            //    //game->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
+            //}
             break;
 
         case WM_ENTERSIZEMOVE:
@@ -61,13 +67,13 @@ namespace fccs {
 
         case WM_EXITSIZEMOVE:
             s_in_sizemove = false;
-            if (game)
-            {
-                RECT rc;
-                GetClientRect(hWnd, &rc);
+            //if (game)
+            //{
+            //    RECT rc;
+            //    GetClientRect(hWnd, &rc);
 
-                //game->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
-            }
+            //    //game->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+            //}
             break;
 
         case WM_GETMINMAXINFO:
@@ -80,35 +86,35 @@ namespace fccs {
             break;
 
         case WM_ACTIVATEAPP:
-            if (game)
-            {
-                if (wParam)
-                {
-                    //game->OnActivated();
-                }
-                else
-                {
-                    //game->OnDeactivated();
-                }
-            }
+            //if (game)
+            //{
+            //    if (wParam)
+            //    {
+            //        //game->OnActivated();
+            //    }
+            //    else
+            //    {
+            //        //game->OnDeactivated();
+            //    }
+            //}
             break;
 
         case WM_POWERBROADCAST:
             switch (wParam)
             {
             case PBT_APMQUERYSUSPEND:
-                if (!s_in_suspend && game) {
-                    //game->OnSuspending();
-                }
+                //if (!s_in_suspend && game) {
+                //    //game->OnSuspending();
+                //}
                 s_in_suspend = true;
                 return TRUE;
 
             case PBT_APMRESUMESUSPEND:
                 if (!s_minimized)
                 {
-                    if (s_in_suspend && game) {
-                        //game->OnResuming();
-                    }
+                    //if (s_in_suspend && game) {
+                    //    //game->OnResuming();
+                    //}
                         
                     s_in_suspend = false;
                 }
@@ -191,7 +197,7 @@ namespace fccs {
             AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX, FALSE);
             m_hwnd = CreateWindowExW(0, m_Desc.title.c_str(), L"fccs_class", WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
                 CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, GetModuleHandle(nullptr),
-                nullptr);
+                this);
         }
         void Window::OpenWindow() {
             ShowWindow(m_hwnd, SW_SHOWDEFAULT);
@@ -201,7 +207,6 @@ namespace fccs {
             m_callback = callback;
             m_callback->Initialize();
            
-            SetWindowLongPtr(m_hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(callback));
             while (WM_QUIT != msg.message)
             {
                 if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
