@@ -85,7 +85,8 @@ namespace fccs {
                     m_callback->Update();
                 }
             }
-            m_callback->Release();
+            m_callback = nullptr;
+            callback->Release();
             return static_cast<int>(msg.wParam);
         }
     }
