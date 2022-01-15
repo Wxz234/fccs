@@ -14,10 +14,6 @@ namespace fccs {
 
 			window::IWindowCallback* m_callback = nullptr;
             MSG msg = {};
-			bool s_in_sizemove = false;
-			bool s_in_suspend = false;
-			bool s_minimized = false;
-			bool s_fullscreen = false;
 		};
 	}
 }
