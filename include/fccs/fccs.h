@@ -131,9 +131,17 @@ namespace fccs {
 			std::wstring title = L"fccs";
 		};
 
+		class IWindowCallback {
+		public:
+			virtual void Initialize() = 0;
+			virtual void Update() = 0;
+			virtual void Release() = 0;
+		};
+
 		class IWindow : public IResource {
 		public:
 			virtual void OpenWindow() = 0;
+			virtual int32_t Run(IWindowCallback* callback) = 0;
 		};
 
 		typedef SharedPtr<IWindow> WindowHandle;
