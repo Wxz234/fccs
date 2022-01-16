@@ -51,6 +51,8 @@ namespace fccs {
                 wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
                 wcex.lpszClassName = L"fccs_class";
                 wcex.hIconSm = LoadIconW(wcex.hInstance, L"IDI_ICON");
+
+                RegisterClassExW(&wcex);
             }
         );
 	}
