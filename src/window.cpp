@@ -61,7 +61,7 @@ namespace fccs {
             RegisterClassOnce();
             RECT rc = { 0, 0, static_cast<LONG>(m_Desc.width), static_cast<LONG>(m_Desc.height) };
             AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX, FALSE);
-            m_hwnd = CreateWindowExW(0, m_Desc.title.c_str(), L"fccs_class", WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
+            m_hwnd = CreateWindowExW(0, L"fccs_class", m_Desc.title.c_str(), WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
                 CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, GetModuleHandle(nullptr),
                 this);
         }
