@@ -92,7 +92,7 @@ namespace fccs {
             return static_cast<int>(msg.wParam);
         }
 
-        FCCS_API WindowHandle createWindow(const WindowDesc& desc) {
+        FCCS_API WindowHandle CreateFCCSWindow(const WindowDesc& desc) {
             return WindowHandle(new Window(desc));
         }
     }
