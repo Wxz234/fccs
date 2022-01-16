@@ -122,6 +122,7 @@ namespace fccs {
 	namespace window {
 		class ISwapChain :public IResource {
 		public:
+			virtual void Present(uint32_t sync) = 0;
 		};
 		typedef SharedPtr<ISwapChain> SwapChainHandle;
 		struct WindowDesc
