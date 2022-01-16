@@ -1,5 +1,4 @@
 #include "window.h"
-#include "swapchain.h"
 #include <mutex>
 
 namespace fccs {
@@ -93,9 +92,7 @@ namespace fccs {
             return static_cast<int>(msg.wParam);
         }
 
-        SwapChainHandle Window::CreateSwapChain(rhi::IDevice* pDevice) {
-            return SwapChainHandle(new SwapChain(pDevice->GetNativeQueuePtr(), m_hwnd, m_Desc.width, m_Desc.height));
-        }
+
 
         FCCS_API WindowHandle CreateFCCSWindow(const WindowDesc& desc) {
             return WindowHandle(new Window(desc));

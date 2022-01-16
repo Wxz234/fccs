@@ -59,5 +59,9 @@ namespace fccs {
 			WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
 			++m_fenceValues[m_frameIndex];
 		}
+
+		FCCS_API SwapChainHandle CreateSwapChain(const SwapChainDesc& desc, rhi::ICommandQueue* pQueue) {
+			return SwapChainHandle(new SwapChain((ID3D12CommandQueue*)pQueue->GetNativePtr(), desc.hwnd, desc.width, desc.height));
+		}
 	}
 }

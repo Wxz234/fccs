@@ -1,11 +1,13 @@
 #pragma once
 #define FCCS_API
+
 #include <memory>
 #include <cstdint>
 #include <cstddef>
 #include <type_traits>
 #include <string>
 #include <d3d12.h>
+#include <windef.h>
 #define FCCS_BITMASK_OPS(_BITMASK)																					\
 [[nodiscard]] constexpr _BITMASK operator&(_BITMASK _Left, _BITMASK _Right) noexcept {								\
     using _IntTy = ::std::underlying_type_t<_BITMASK>;																\
@@ -126,6 +128,15 @@ namespace fccs {
 			virtual void Present(uint32_t sync) = 0;
 		};
 		typedef SharedPtr<ISwapChain> SwapChainHandle;
+
+		struct SwapChainDesc
+		{
+			uint32_t width;
+			uint32_t height;
+			HWND hwnd;
+		};
+		FCCS_API SwapChainHandle CreateSwapChain(const SwapChainDesc& desc, rhi::ICommandQueue* pQueue);
+
 		struct WindowDesc
 		{
 			uint32_t width = 800;
@@ -142,7 +153,7 @@ namespace fccs {
 
 		class IWindow : public IResource {
 		public:
-			virtual SwapChainHandle CreateSwapChain(rhi::IDevice* pDevice) = 0;
+			virtual HWND GetHWND() const = 0;
 			virtual void OpenWindow() = 0;
 			virtual int32_t Run(IWindowCallback* callback) = 0;
 		};
