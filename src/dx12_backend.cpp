@@ -4,6 +4,8 @@
 #include <vector>
 #include <mutex> 
 namespace fccs {
+	typedef HRESULT(WINAPI* CreateFactory)(UINT, REFIID, _COM_Outptr_ void**);
+
 	void createD3D12Device(ID3D12Device** ppDevice) {
 		*ppDevice = nullptr;
 		static auto mod = LoadLibraryW(L"d3d12.dll");
@@ -11,6 +13,19 @@ namespace fccs {
 		Microsoft::WRL::ComPtr<ID3D12Device> device;
 		createDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&device));
 		*ppDevice = device.Detach();
+	}
+
+	void createDXGIFactory(IDXGIFactory **ppFactory) {
+		*ppFactory = nullptr;
+		static auto mod = LoadLibraryW(L"dxgi.dll");
+		auto createFactory = (CreateFactory)GetProcAddress(mod, "CreateDXGIFactory2");
+		Microsoft::WRL::ComPtr<IDXGIFactory> factory;
+#ifdef _DEBUG
+		createFactory(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&factory));
+#else
+		createFactory(0, IID_PPV_ARGS(&factory));
+#endif
+		*ppFactory = factory.Detach();
 	}
 
 	struct CmdAllocator {
