@@ -142,6 +142,7 @@ namespace fccs {
 
 		class IWindow : public IResource {
 		public:
+			virtual SwapChainHandle CreateSwapChain(rhi::IDevice* pDevice) = 0;
 			virtual void OpenWindow() = 0;
 			virtual int32_t Run(IWindowCallback* callback) = 0;
 		};

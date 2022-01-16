@@ -9,6 +9,7 @@ namespace fccs {
 			Window(const WindowDesc& desc);
 			void OpenWindow();
 			int32_t Run(IWindowCallback* callback);
+			SwapChainHandle CreateSwapChain(rhi::IDevice* pDevice);
 			WindowDesc m_Desc;
 			HWND m_hwnd;
 
