@@ -31,7 +31,33 @@ namespace fccs {
 			factory4->CreateSwapChainForHwnd(m_queue, hwnd, &_desc, &fsSwapChainDesc, nullptr, &swapChain);
 			factory4->MakeWindowAssociation(hwnd, DXGI_MWA_NO_WINDOW_CHANGES | DXGI_MWA_NO_ALT_ENTER);
 			swapChain.As(&m_swapchain);
-			
+			m_event.Attach(CreateEvent(nullptr, FALSE, FALSE, nullptr));
+			m_frameIndex = m_swapchain->GetCurrentBackBufferIndex();
+			m_fenceValues.resize(_desc.BufferCount, 0);
+
+			Microsoft::WRL::ComPtr<ID3D12Device8> _device;
+			m_queue->GetDevice(IID_PPV_ARGS(&_device));
+			_device->CreateFence(m_fenceValues[m_frameIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence));
+			++m_fenceValues[m_frameIndex];
+		}
+
+		void SwapChain::Present(uint32_t sync) {
+			m_swapchain->Present(sync, 0);
+			const uint64_t currentFenceValue = m_fenceValues[m_frameIndex];
+			m_queue->Signal(m_fence.Get(), currentFenceValue);
+			m_frameIndex = m_swapchain->GetCurrentBackBufferIndex();
+			if (m_fence->GetCompletedValue() < m_fenceValues[m_frameIndex]) {
+				m_fence->SetEventOnCompletion(m_fenceValues[m_frameIndex], m_event.Get());
+				WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
+			}
+			m_fenceValues[m_frameIndex] = currentFenceValue + 1;
+		}
+
+		SwapChain::~SwapChain() {
+			m_queue->Signal(m_fence.Get(), m_fenceValues[m_frameIndex]);
+			m_fence->SetEventOnCompletion(m_fenceValues[m_frameIndex], m_event.Get());
+			WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
+			++m_fenceValues[m_frameIndex];
 		}
 	}
 }
