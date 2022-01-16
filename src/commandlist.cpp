@@ -18,6 +18,10 @@ namespace fccs {
 				device8->CreateCommandList1(0, D3D12_COMMAND_LIST_TYPE_COPY, D3D12_COMMAND_LIST_FLAG_NONE, IID_PPV_ARGS(&m_mainLists));
 			}
 			device8->Release();
+			addCommandAllocatorRefCount();
+		}
+		CommandList::~CommandList() {
+			releaseCommandAllocatorRef();
 		}
 
 		void CommandList::Open() {

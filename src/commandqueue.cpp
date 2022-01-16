@@ -22,6 +22,7 @@ namespace fccs {
 			m_device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&m_queue));
 			m_event.Attach(CreateEventW(0, 0, 0, 0));
 			submitValue = 0;
+			addCommandAllocatorRefCount();
 		}
 
 		CommandQueue::~CommandQueue() {
@@ -29,6 +30,8 @@ namespace fccs {
 			m_queue->Signal(m_fence.Get(), submitValue);
 			m_fence->SetEventOnCompletion(submitValue, m_event.Get());
 			WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
+
+			releaseCommandAllocatorRef();
 		}
 
 		uint64_t CommandQueue::getCompletedValue() {
