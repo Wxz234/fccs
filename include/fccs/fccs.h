@@ -146,6 +146,6 @@ namespace fccs {
 
 		typedef SharedPtr<IWindow> WindowHandle;
 
-		FCCS_API WindowHandle CreateDeivce(const WindowDesc& desc = WindowDesc());
+		FCCS_API WindowHandle createWindow(const WindowDesc& desc = WindowDesc());
 	}
 }
