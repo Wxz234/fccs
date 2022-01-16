@@ -28,7 +28,7 @@ namespace fccs {
 			Microsoft::WRL::ComPtr<IDXGIFactory4> factory4;
 			Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain;
 			factory.As(&factory4);
-			factory4->CreateSwapChainForHwnd(m_queue, hwnd, &_desc, &fsSwapChainDesc, nullptr, &swapChain);
+			factory4->CreateSwapChainForHwnd(m_queue.Get(), hwnd, &_desc, &fsSwapChainDesc, nullptr, &swapChain);
 			factory4->MakeWindowAssociation(hwnd, DXGI_MWA_NO_WINDOW_CHANGES | DXGI_MWA_NO_ALT_ENTER);
 			swapChain.As(&m_swapchain);
 			m_event.Attach(CreateEvent(nullptr, FALSE, FALSE, nullptr));

@@ -15,7 +15,7 @@ namespace fccs {
 			void* GetNativePtr() const noexcept {
 				return m_queue.Get();
 			}
-			ID3D12Device* m_device;
+			Microsoft::WRL::ComPtr<ID3D12Device> m_device;
 			Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_queue;
 			Microsoft::WRL::ComPtr<ID3D12Fence> m_fence;
 			Microsoft::WRL::Wrappers::Event m_event;

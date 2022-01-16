@@ -48,7 +48,7 @@ namespace fccs {
 
 			for (size_t i = 0; i < NumCommandLists; i++)
 			{
-				updateBusyAllocator(static_cast<CommandList*>(ppCommandLists[i])->m_Alloc, m_fence.Get(), submitValue);
+				updateBusyAllocator(static_cast<CommandList*>(ppCommandLists[i])->m_Alloc.Get(), m_fence.Get(), submitValue);
 			}
 		}
 

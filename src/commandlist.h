@@ -14,8 +14,8 @@ namespace fccs {
 			void Open();
 			void Close();
 			
-			ID3D12CommandAllocator* m_Alloc;
-			ID3D12Device* m_device;
+			Microsoft::WRL::ComPtr<ID3D12CommandAllocator> m_Alloc;
+			Microsoft::WRL::ComPtr<ID3D12Device> m_device;
 
 			Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> m_mainLists;
 
