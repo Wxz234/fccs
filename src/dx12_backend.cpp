@@ -38,7 +38,7 @@ namespace fccs {
 	};
 
 	struct CmdAllocatorPool {
-
+		uint32_t refCount = 0;
 		std::mutex mtx;
 		std::vector<CmdAllocator> canUseAllocator;
 		std::vector<CmdAllocator> busyAllocator;
@@ -103,6 +103,20 @@ namespace fccs {
 
 	void updateBusyAllocator(ID3D12CommandAllocator* pAllocator, ID3D12Fence* pFence, uint64_t submitValue) {
 		cmd_Pool.updateBusyAllocator(pAllocator, pFence, submitValue);
+	}
+
+	void addCommandAllocatorRefCount() {
+		std::lock_guard<std::mutex> lck(cmd_Pool.mtx);
+		cmd_Pool.refCount++;
+	}
+
+	void releaseCommandAllocatorRef() {
+		std::lock_guard<std::mutex> lck(cmd_Pool.mtx);
+		cmd_Pool.refCount--;
+		if (cmd_Pool.refCount == 0) {
+			cmd_Pool.canUseAllocator.clear();
+			cmd_Pool.busyAllocator.clear();
+		}
 	}
 
 	namespace rhi {
