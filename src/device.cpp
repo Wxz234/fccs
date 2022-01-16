@@ -14,13 +14,9 @@ namespace fccs {
 			}
 			m_cmd_queue = CreateCommandQueue(CommandQueueType::Graphics);
 		}
-		Device::~Device() {
-			m_cmd_queue.reset();
-		}
+		Device::~Device() {}
 
-		void Device::waitForIdle() {
-
-		}
+		void Device::waitForIdle() {}
 
 		ID3D12CommandQueue* Device::GetNativeQueuePtr() const noexcept {
 			ID3D12CommandQueue* temp = (ID3D12CommandQueue*)(m_cmd_queue->GetNativePtr());
