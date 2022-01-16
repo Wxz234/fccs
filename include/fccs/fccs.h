@@ -111,6 +111,7 @@ namespace fccs {
 
 		class IDevice : public IRHIObject {
 		public:
+			virtual ID3D12CommandQueue* GetNativeQueuePtr() const noexcept = 0;
 			virtual CommandListHandle CreateCommandList(CommandQueueType type) = 0;
 			virtual CommandQueueHandle CreateCommandQueue(CommandQueueType type) = 0;
 		};

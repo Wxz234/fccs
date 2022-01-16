@@ -12,13 +12,19 @@ namespace fccs {
 			else {
 				createD3D12Device(&m_device);
 			}
+			m_cmd_queue = CreateCommandQueue(CommandQueueType::Graphics);
 		}
 		Device::~Device() {
-
+			m_cmd_queue.reset();
 		}
 
 		void Device::waitForIdle() {
 
+		}
+
+		ID3D12CommandQueue* Device::GetNativeQueuePtr() const noexcept {
+			ID3D12CommandQueue* temp = (ID3D12CommandQueue*)(m_cmd_queue->GetNativePtr());
+			return temp;
 		}
 
 		CommandListHandle Device::CreateCommandList(CommandQueueType type) {
