@@ -55,6 +55,9 @@ namespace fccs {
 				_device->CreateRenderTargetView(m_Resource[n].Get(), nullptr, rtvDescriptor);
 			}
 		}
+		uint32_t SwapChain::GetCurrentBackBufferIndex()  const noexcept {
+			return m_swapchain->GetCurrentBackBufferIndex();
+		}
 		ID3D12Resource* SwapChain::GetNativeResourcePtr(uint32_t n) const noexcept {
 			return m_Resource[n].Get();
 		}
