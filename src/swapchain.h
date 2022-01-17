@@ -11,6 +11,7 @@ namespace fccs {
 		class SwapChain : public ISwapChain {
 		public:
 			SwapChain(ID3D12CommandQueue* pQueue, HWND hwnd, uint32_t width, uint32_t height);
+			D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept;
 			void Present(uint32_t sync);
 			Format GetRenderTargetFormat() const noexcept;
 			~SwapChain();
@@ -25,6 +26,7 @@ namespace fccs {
 			//
 			Microsoft::WRL::ComPtr<ID3D12Resource> m_Resource[FCCS_SWAPCHAIN_NUM];
 			Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_rtvDescriptorHeap;
+			uint32_t m_rtvDescriptorSize;
 		};
 	}
 }

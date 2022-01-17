@@ -49,11 +49,17 @@ namespace fccs {
 			{
 				m_swapchain->GetBuffer(n, IID_PPV_ARGS(m_Resource[n].GetAddressOf()));
 
-				auto m_rtvDescriptorSize = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-				D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptor = {};
-				rtvDescriptor.ptr = SIZE_T(INT64(m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(n) * INT64(m_rtvDescriptorSize));
+				m_rtvDescriptorSize = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+				D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptor = m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+				rtvDescriptor.ptr = SIZE_T(INT64(rtvDescriptor.ptr) + INT64(n) * INT64(m_rtvDescriptorSize));
 				_device->CreateRenderTargetView(m_Resource[n].Get(), nullptr, rtvDescriptor);
 			}
+		}
+
+		D3D12_CPU_DESCRIPTOR_HANDLE SwapChain::GetRenderTargetView(uint32_t n) const noexcept {
+			D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptor = m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+			rtvDescriptor.ptr = SIZE_T(INT64(rtvDescriptor.ptr) + INT64(n) * INT64(m_rtvDescriptorSize));
+			return rtvDescriptor;
 		}
 
 		void SwapChain::Present(uint32_t sync) {
