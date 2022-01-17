@@ -55,7 +55,9 @@ namespace fccs {
 				_device->CreateRenderTargetView(m_Resource[n].Get(), nullptr, rtvDescriptor);
 			}
 		}
-
+		ID3D12Resource* SwapChain::GetNativeResourcePtr(uint32_t n) const noexcept {
+			return m_Resource[n].Get();
+		}
 		D3D12_CPU_DESCRIPTOR_HANDLE SwapChain::GetRenderTargetView(uint32_t n) const noexcept {
 			D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptor = m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 			rtvDescriptor.ptr = SIZE_T(INT64(rtvDescriptor.ptr) + INT64(n) * INT64(m_rtvDescriptorSize));

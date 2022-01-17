@@ -198,6 +198,7 @@ namespace fccs {
 	namespace window {
 		class ISwapChain :public IResource {
 		public:
+			virtual ID3D12Resource* GetNativeResourcePtr(uint32_t n) const noexcept = 0;
 			virtual D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept = 0;
 			virtual void Present(uint32_t sync) = 0;
 		};
