@@ -6,6 +6,7 @@ add_library(fccs STATIC
 "commandqueue.cpp"
 "window.cpp"
 "swapchain.cpp"
+"format.cpp"
 )
 
 target_include_directories(fccs PUBLIC "${PROJECT_SOURCE_DIR}/include")
