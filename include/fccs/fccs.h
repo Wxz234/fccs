@@ -195,6 +195,17 @@ namespace fccs {
 		FCCS_API DeviceHandle CreateDeivce(const DeviceDesc& desc = DeviceDesc());
 	}
 
+	namespace framegraph {
+
+		class Pass {
+			
+		};
+
+		class IFrameGraph {
+
+		};
+	}
+
 	namespace window {
 		class ISwapChain :public IResource {
 		public:
