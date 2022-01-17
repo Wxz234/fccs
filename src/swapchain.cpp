@@ -9,7 +9,7 @@ namespace fccs {
 			createDXGIFactory(&factory);
 
 			DXGI_SWAP_CHAIN_DESC1 _desc = {};
-			_desc.BufferCount = 3;
+			_desc.BufferCount = FCCS_SWAPCHAIN_NUM;
 			_desc.Width = width;
 			_desc.Height = height;
 			_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -39,6 +39,21 @@ namespace fccs {
 			m_queue->GetDevice(IID_PPV_ARGS(&_device));
 			_device->CreateFence(m_fenceValues[m_frameIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence));
 			++m_fenceValues[m_frameIndex];
+
+			D3D12_DESCRIPTOR_HEAP_DESC rtvDescriptorHeapDesc = {};
+			rtvDescriptorHeapDesc.NumDescriptors = FCCS_SWAPCHAIN_NUM;
+			rtvDescriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+			_device->CreateDescriptorHeap(&rtvDescriptorHeapDesc, IID_PPV_ARGS(m_rtvDescriptorHeap.ReleaseAndGetAddressOf()));
+
+			for (uint32_t n = 0; n < FCCS_SWAPCHAIN_NUM; ++n)
+			{
+				m_swapchain->GetBuffer(n, IID_PPV_ARGS(m_Resource[n].GetAddressOf()));
+
+				auto m_rtvDescriptorSize = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+				D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptor = {};
+				rtvDescriptor.ptr = SIZE_T(INT64(m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(n) * INT64(m_rtvDescriptorSize));
+				_device->CreateRenderTargetView(m_Resource[n].Get(), nullptr, rtvDescriptor);
+			}
 		}
 
 		void SwapChain::Present(uint32_t sync) {

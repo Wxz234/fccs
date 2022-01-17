@@ -3,7 +3,10 @@
 #include <wrl.h>
 #include <dxgi1_6.h>
 #include <vector>
+#define FCCS_SWAPCHAIN_NUM 3
 namespace fccs {
+
+
 	namespace window {
 		class SwapChain : public ISwapChain {
 		public:
@@ -19,6 +22,9 @@ namespace fccs {
 			Microsoft::WRL::Wrappers::Event m_event;
 			std::vector<uint64_t> m_fenceValues;
 			uint32_t m_frameIndex;
+			//
+			Microsoft::WRL::ComPtr<ID3D12Resource> m_Resource[FCCS_SWAPCHAIN_NUM];
+			Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_rtvDescriptorHeap;
 		};
 	}
 }
