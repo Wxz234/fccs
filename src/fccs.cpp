@@ -1,4 +1,4 @@
-
+#include <fccs/core.h>
 namespace fccs {
 	IResource::~IResource() {
 

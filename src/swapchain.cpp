@@ -1,4 +1,5 @@
-
+#include "swapchain.h"
+#include "dx12_backend.h"
 namespace fccs {
 	namespace rhi {
 		SwapChain::SwapChain(ID3D12CommandQueue* pQueue, HWND hwnd, uint32_t width, uint32_t height) {

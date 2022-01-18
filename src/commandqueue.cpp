@@ -1,3 +1,8 @@
+#include "commandqueue.h"
+#include "commandlist.h"
+#include "dx12_backend.h"
+#include <vector>
+#include <cstddef>
 namespace fccs {
 	namespace rhi {
 

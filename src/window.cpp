@@ -1,5 +1,5 @@
-
-
+#include "window.h"
+#include <mutex>
 namespace fccs {
 
     LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

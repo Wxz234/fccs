@@ -2,6 +2,7 @@
 #include <fccs/rhi.h>
 #include <wrl.h>
 #include <vector>
+#include <dxgi1_6.h>
 #define FCCS_SWAPCHAIN_NUM 3
 namespace fccs {
 
