@@ -14,19 +14,6 @@ namespace fccs {
                 SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pCreateStruct->lpCreateParams));
             }
             break;
-        case WM_PAINT:
-            {
-                if (window_ptr && window_ptr->m_callback) {
-                    window_ptr->m_callback->Update();
-                }
-                else {
-                    PAINTSTRUCT ps;
-                    HDC hdc = BeginPaint(hWnd, &ps);
-                    // TODO: 在此处添加使用 hdc 的任何绘图代码...
-                    EndPaint(hWnd, &ps);
-                }
-            }
-            break;
         case WM_DESTROY:
             PostQuitMessage(0);
             break;
