@@ -1,4 +1,3 @@
-
 namespace fccs {
 	namespace rhi {
 		CommandList::CommandList(ID3D12Device* pDevice, CommandQueueType type) {
