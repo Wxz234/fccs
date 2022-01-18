@@ -135,16 +135,19 @@ namespace fccs {
 
 		class Pass {
 		public:
+
 		};
 
-		class IFrameGraph : public IResource {
+		class IFrameGraph {
 		public:
+			IFrameGraph() {}
+
 			void AddPass(const Pass& pass);
 			void Compile();
 			void Execute();
+		private:
 		};
 
-		//FCCS_API FrameGraphHandle CreateFrameGraph(rhi::IDevice* pDevice);
 	}
 
 	namespace window {
