@@ -15,7 +15,6 @@ namespace fccs {
 			ID3D12Resource* GetNativeResourcePtr(uint32_t n) const noexcept;
 			D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept;
 			void Present(uint32_t sync);
-			Format GetRenderTargetFormat() const noexcept;
 			~SwapChain();
 			Microsoft::WRL::ComPtr < ID3D12CommandQueue> m_queue;
 			Microsoft::WRL::ComPtr<IDXGISwapChain4> m_swapchain;

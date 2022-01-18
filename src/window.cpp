@@ -1,11 +1,12 @@
 #include "window.h"
+#include <Windows.h>
 #include <mutex>
 
 namespace fccs {
 
     LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
-        window::Window* window_ptr = reinterpret_cast<window::Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+        //window::Window* window_ptr = reinterpret_cast<window::Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
         switch (message)
         {
         case WM_CREATE:
@@ -45,44 +46,21 @@ namespace fccs {
 	}
 
     namespace window {
-        Window::Window(const WindowDesc& desc) {
-            m_Desc = desc;
-            RegisterClassOnce();
-            RECT rc = { 0, 0, static_cast<LONG>(m_Desc.width), static_cast<LONG>(m_Desc.height) };
-            AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX, FALSE);
-            m_hwnd = CreateWindowExW(0, L"fccs_class", m_Desc.title.c_str(), WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
-                CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, GetModuleHandle(nullptr),
-                this);
-        }
-        void Window::OpenWindow() {
-            ShowWindow(m_hwnd, SW_SHOWDEFAULT);
-        }
+        //Window::Window(const WindowDesc& desc) {
+        //    m_Desc = desc;
+        //    RegisterClassOnce();
+        //    RECT rc = { 0, 0, static_cast<LONG>(m_Desc.width), static_cast<LONG>(m_Desc.height) };
+        //    AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX, FALSE);
+        //    m_hwnd = CreateWindowExW(0, L"fccs_class", m_Desc.title.c_str(), WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
+        //        CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, GetModuleHandle(nullptr),
+        //        this);
+        //}
+        //void Window::OpenWindow() {
+        //    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+        //}
 
-        int32_t Window::Run(IWindowCallback* callback) {
-
-            callback->Initialize();
-            m_callback = callback;
-            while (WM_QUIT != msg.message)
-            {
-                if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-                {
-                    TranslateMessage(&msg);
-                    DispatchMessage(&msg);
-                }
-                else
-                {
-                    m_callback->Update();
-                }
-            }
-            m_callback = nullptr;
-            callback->Release();
-            return static_cast<int>(msg.wParam);
-        }
-
-
-
-        FCCS_API WindowHandle CreateFCCSWindow(const WindowDesc& desc) {
-            return WindowHandle(new Window(desc));
-        }
+        //FCCS_API WindowHandle CreateFCCSWindow(const WindowDesc& desc) {
+        //    return WindowHandle(new Window(desc));
+        //}
     }
 }

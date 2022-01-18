@@ -79,9 +79,6 @@ namespace fccs {
 			m_fenceValues[m_frameIndex] = currentFenceValue + 1;
 		}
 
-		Format SwapChain::GetRenderTargetFormat() const noexcept {
-			return Format::RGBA8_UNORM;
-		}
 
 		SwapChain::~SwapChain() {
 			m_queue->Signal(m_fence.Get(), m_fenceValues[m_frameIndex]);

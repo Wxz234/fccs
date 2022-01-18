@@ -44,79 +44,6 @@ constexpr _BITMASK& operator^=(_BITMASK& _Left, _BITMASK _Right) noexcept { /* r
 
 
 namespace fccs {
-	enum class Format : uint8_t
-	{
-		UNKNOWN,
-		R8_UINT,
-		R8_SINT,
-		R8_UNORM,
-		R8_SNORM,
-		RG8_UINT,
-		RG8_SINT,
-		RG8_UNORM,
-		RG8_SNORM,
-		R16_UINT,
-		R16_SINT,
-		R16_UNORM,
-		R16_SNORM,
-		R16_FLOAT,
-		BGRA4_UNORM,
-		B5G6R5_UNORM,
-		B5G5R5A1_UNORM,
-		RGBA8_UINT,
-		RGBA8_SINT,
-		RGBA8_UNORM,
-		RGBA8_SNORM,
-		BGRA8_UNORM,
-		SRGBA8_UNORM,
-		SBGRA8_UNORM,
-		R10G10B10A2_UNORM,
-		R11G11B10_FLOAT,
-		RG16_UINT,
-		RG16_SINT,
-		RG16_UNORM,
-		RG16_SNORM,
-		RG16_FLOAT,
-		R32_UINT,
-		R32_SINT,
-		R32_FLOAT,
-		RGBA16_UINT,
-		RGBA16_SINT,
-		RGBA16_FLOAT,
-		RGBA16_UNORM,
-		RGBA16_SNORM,
-		RG32_UINT,
-		RG32_SINT,
-		RG32_FLOAT,
-		RGB32_UINT,
-		RGB32_SINT,
-		RGB32_FLOAT,
-		RGBA32_UINT,
-		RGBA32_SINT,
-		RGBA32_FLOAT,
-		D16,
-		D24S8,
-		X24G8_UINT,
-		D32,
-		D32S8,
-		X32G8_UINT,
-		BC1_UNORM,
-		BC1_UNORM_SRGB,
-		BC2_UNORM,
-		BC2_UNORM_SRGB,
-		BC3_UNORM,
-		BC3_UNORM_SRGB,
-		BC4_UNORM,
-		BC4_SNORM,
-		BC5_UNORM,
-		BC5_SNORM,
-		BC6H_UFLOAT,
-		BC6H_SFLOAT,
-		BC7_UNORM,
-		BC7_UNORM_SRGB,
-		COUNT,
-	};
-
 
 	template<typename T>
 	using SharedPtr = std::shared_ptr<T>;
@@ -125,6 +52,7 @@ namespace fccs {
 	public:
 		virtual ~IResource();
 	};
+	FCCS_API void DestroyResource(IResource *pResource);
 
 	namespace rhi {
 
@@ -236,22 +164,14 @@ namespace fccs {
 			std::wstring title = L"fccs";
 		};
 
-		class IWindowCallback {
-		public:
-			virtual void Initialize() = 0;
-			virtual void Update() = 0;
-			virtual void Release() = 0;
-		};
-
 		class IWindow : public IResource {
 		public:
-			virtual HWND GetHWND() const = 0;
-			virtual void OpenWindow() = 0;
-			virtual int32_t Run(IWindowCallback* callback) = 0;
+			IWindow(const WindowDesc& desc);
+			HWND GetHWND() const noexcept;
+			void OpenWindow();
+			virtual void Run() = 0;
+		private:
 		};
 
-		typedef SharedPtr<IWindow> WindowHandle;
-
-		FCCS_API WindowHandle CreateFCCSWindow(const WindowDesc& desc = WindowDesc());
 	}
 }

@@ -1,22 +1,19 @@
 #pragma once
 #include <fccs/fccs.h>
-#include <Windows.h>
 
 namespace fccs {
 	namespace window {
-		class Window : public IWindow {
-		public:
-			Window(const WindowDesc& desc);
-			void OpenWindow();
-			int32_t Run(IWindowCallback* callback);
-			HWND GetHWND() const {
-				return m_hwnd;
-			}
-			WindowDesc m_Desc;
-			HWND m_hwnd;
+		//class Window : public IWindow {
+		//public:
+		//	Window(const WindowDesc& desc);
+		//	void OpenWindow();
 
-			window::IWindowCallback* m_callback = nullptr;
-            MSG msg = {};
-		};
+		//	HWND GetHWND() const {
+		//		return m_hwnd;
+		//	}
+		//	WindowDesc m_Desc;
+		//	HWND m_hwnd;
+
+		//};
 	}
 }
