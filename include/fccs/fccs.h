@@ -198,16 +198,21 @@ namespace fccs {
 	namespace framegraph {
 
 		class Pass {
-			
+		public:
 		};
 
-		class IFrameGraph {
-
+		class IFrameGraph : public IResource {
+		public:
+			void AddPass(const Pass& pass);
+			void Compile();
+			void Execute();
 		};
+		typedef SharedPtr<IFrameGraph> FrameGraphHandle;
+		FCCS_API FrameGraphHandle CreateFrameGraph(rhi::IDevice* pDevice);
 	}
 
 	namespace window {
-		class ISwapChain :public IResource {
+		class ISwapChain : public IResource {
 		public:
 			virtual uint32_t GetCurrentBackBufferIndex() const noexcept = 0;
 			virtual ID3D12Resource* GetNativeResourcePtr(uint32_t n) const noexcept = 0;
