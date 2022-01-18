@@ -1,5 +1,7 @@
 #pragma once
-
+#include <fccs/rhi.h>
+#include <wrl.h>
+#include <vector>
 #define FCCS_SWAPCHAIN_NUM 3
 namespace fccs {
 
@@ -13,7 +15,7 @@ namespace fccs {
 			D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept;
 			void Present(uint32_t sync);
 			~SwapChain();
-			Microsoft::WRL::ComPtr < ID3D12CommandQueue> m_queue;
+			Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_queue;
 			Microsoft::WRL::ComPtr<IDXGISwapChain4> m_swapchain;
 
 			//sync
