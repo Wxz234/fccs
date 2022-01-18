@@ -1,7 +1,7 @@
 #include "swapchain.h"
 #include "dx12_backend.h"
 namespace fccs {
-	namespace window {
+	namespace rhi {
 		SwapChain::SwapChain(ID3D12CommandQueue* pQueue, HWND hwnd, uint32_t width, uint32_t height) {
 			m_queue = pQueue;
 
@@ -87,7 +87,7 @@ namespace fccs {
 			++m_fenceValues[m_frameIndex];
 		}
 
-		FCCS_API ISwapChain* CreateSwapChain(const SwapChainDesc& desc, rhi::ICommandQueue* pQueue) {
+		FCCS_API ISwapChain* CreateSwapChain(ICommandQueue* pQueue, const SwapChainDesc& desc) {
 			return new SwapChain((ID3D12CommandQueue*)pQueue->GetNativePtr(), desc.hwnd, desc.width, desc.height);
 		}
 	}

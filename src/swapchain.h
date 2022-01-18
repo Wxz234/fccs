@@ -7,7 +7,7 @@
 namespace fccs {
 
 
-	namespace window {
+	namespace rhi {
 		class SwapChain : public ISwapChain {
 		public:
 			SwapChain(ID3D12CommandQueue* pQueue, HWND hwnd, uint32_t width, uint32_t height);

@@ -113,6 +113,22 @@ namespace fccs {
 		};
 
 		FCCS_API IDevice* CreateDeivce(const DeviceDesc& desc = DeviceDesc());
+
+		class ISwapChain : public IResource {
+		public:
+			virtual uint32_t GetCurrentBackBufferIndex() const noexcept = 0;
+			virtual ID3D12Resource* GetNativeResourcePtr(uint32_t n) const noexcept = 0;
+			virtual D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept = 0;
+			virtual void Present(uint32_t sync) = 0;
+		};
+
+		struct SwapChainDesc
+		{
+			uint32_t width;
+			uint32_t height;
+			HWND hwnd;
+		};
+		FCCS_API ISwapChain* CreateSwapChain(ICommandQueue* pQueue, const SwapChainDesc& desc);
 	}
 
 	namespace framegraph {
@@ -132,21 +148,6 @@ namespace fccs {
 	}
 
 	namespace window {
-		class ISwapChain : public IResource {
-		public:
-			virtual uint32_t GetCurrentBackBufferIndex() const noexcept = 0;
-			virtual ID3D12Resource* GetNativeResourcePtr(uint32_t n) const noexcept = 0;
-			virtual D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept = 0;
-			virtual void Present(uint32_t sync) = 0;
-		};
-
-		struct SwapChainDesc
-		{
-			uint32_t width;
-			uint32_t height;
-			HWND hwnd;
-		};
-		FCCS_API ISwapChain* CreateSwapChain(const SwapChainDesc& desc, rhi::ICommandQueue* pQueue);
 
 		struct WindowDesc
 		{
