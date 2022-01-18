@@ -1,6 +1,4 @@
-#include "window.h"
-#include <Windows.h>
-#include <mutex>
+
 
 namespace fccs {
 

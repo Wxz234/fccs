@@ -1,8 +1,4 @@
-#include "dx12_backend.h"
 
-#include <wrl/client.h>
-#include <vector>
-#include <mutex> 
 namespace fccs {
 	typedef HRESULT(WINAPI* CreateFactory)(UINT, REFIID, _COM_Outptr_ void**);
 

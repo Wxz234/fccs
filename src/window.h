@@ -1,5 +1,4 @@
 #pragma once
-#include <fccs/fccs.h>
 
 namespace fccs {
 	namespace window {

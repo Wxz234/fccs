@@ -1,8 +1,5 @@
 #pragma once
-#include <fccs/fccs.h>
-#include <wrl.h>
-#include <dxgi1_6.h>
-#include <vector>
+
 #define FCCS_SWAPCHAIN_NUM 3
 namespace fccs {
 

@@ -1,9 +1,4 @@
 #pragma once
-#include <fccs/fccs.h>
-
-#include <wrl.h>
-#include <cstdint>
-
 namespace fccs {
 	namespace rhi {
 		class CommandQueue : public ICommandQueue {

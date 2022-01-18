@@ -1,7 +1,5 @@
 #pragma once
-#include <fccs/fccs.h>
 
-#include <wrl/client.h>
 
 namespace fccs{
 	namespace rhi {

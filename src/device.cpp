@@ -1,7 +1,3 @@
-#include "device.h"
-#include "commandlist.h"
-#include "commandqueue.h"
-#include "dx12_backend.h"
 namespace fccs {
 	namespace rhi {
 
