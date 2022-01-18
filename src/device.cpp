@@ -12,22 +12,18 @@ namespace fccs {
 			else {
 				createD3D12Device(&m_device);
 			}
-			m_cmd_queue = CreateCommandQueue(CommandQueueType::Graphics);
 		}
 		Device::~Device() {}
 
 		void Device::waitForIdle() {}
 
-		ID3D12CommandQueue* Device::GetNativeQueuePtr() const noexcept {
-			ID3D12CommandQueue* temp = (ID3D12CommandQueue*)(m_cmd_queue->GetNativePtr());
-			return temp;
-		}
 
-		CommandListHandle Device::CreateCommandList(CommandQueueType type) {
-			return CommandListHandle(new CommandList(m_device.Get(), type));
+
+		ICommandList* Device::CreateCommandList(CommandQueueType type) {
+			return new CommandList(m_device.Get(), type);
 		}
-		CommandQueueHandle Device::CreateCommandQueue(CommandQueueType type) {
-			return CommandQueueHandle(new CommandQueue(m_device.Get(), type));
+		ICommandQueue* Device::CreateCommandQueue(CommandQueueType type) {
+			return new CommandQueue(m_device.Get(), type);
 		}
 
 
@@ -37,8 +33,8 @@ namespace fccs {
 		}
 
 
-		FCCS_API DeviceHandle CreateDeivce(const DeviceDesc& desc) {
-			return DeviceHandle(new Device(desc));
+		FCCS_API IDevice* CreateDeivce(const DeviceDesc& desc) {
+			return new Device(desc);
 		}
 	}
 }

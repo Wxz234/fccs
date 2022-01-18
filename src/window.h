@@ -3,17 +3,17 @@
 
 namespace fccs {
 	namespace window {
-		//class Window : public IWindow {
-		//public:
-		//	Window(const WindowDesc& desc);
-		//	void OpenWindow();
+		class Window : public IWindow {
+		public:
+			Window(const WindowDesc& desc);
+			void OpenWindow();
 
-		//	HWND GetHWND() const {
-		//		return m_hwnd;
-		//	}
-		//	WindowDesc m_Desc;
-		//	HWND m_hwnd;
+			HWND GetHWND() const {
+				return m_hwnd;
+			}
+			WindowDesc m_Desc;
+			HWND m_hwnd;
 
-		//};
+		};
 	}
 }

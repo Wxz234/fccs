@@ -1,7 +1,6 @@
 #pragma once
 #define FCCS_API
 
-#include <memory>
 #include <cstdint>
 #include <cstddef>
 #include <type_traits>
@@ -44,9 +43,6 @@ constexpr _BITMASK& operator^=(_BITMASK& _Left, _BITMASK _Right) noexcept { /* r
 
 
 namespace fccs {
-
-	template<typename T>
-	using SharedPtr = std::shared_ptr<T>;
 
 	class IResource {
 	public:
@@ -99,13 +95,11 @@ namespace fccs {
 			virtual void Open() = 0;
 			virtual void Close() = 0;
 		};
-		typedef SharedPtr<ICommandList> CommandListHandle;
 
 		class ICommandQueue : public IRHIObject {
 		public:
 			virtual void ExecuteCommandLists(uint32_t NumCommandLists, ICommandList* const* ppCommandLists) = 0;
 		};
-		typedef SharedPtr<ICommandQueue> CommandQueueHandle;
 
 		struct DeviceDesc
 		{
@@ -114,13 +108,11 @@ namespace fccs {
 
 		class IDevice : public IRHIObject {
 		public:
-			virtual ID3D12CommandQueue* GetNativeQueuePtr() const noexcept = 0;
-			virtual CommandListHandle CreateCommandList(CommandQueueType type) = 0;
-			virtual CommandQueueHandle CreateCommandQueue(CommandQueueType type) = 0;
+			virtual ICommandList* CreateCommandList(CommandQueueType type) = 0;
+			virtual ICommandQueue* CreateCommandQueue(CommandQueueType type) = 0;
 		};
 
-		typedef SharedPtr<IDevice> DeviceHandle;
-		FCCS_API DeviceHandle CreateDeivce(const DeviceDesc& desc = DeviceDesc());
+		FCCS_API IDevice* CreateDeivce(const DeviceDesc& desc = DeviceDesc());
 	}
 
 	namespace framegraph {
@@ -135,8 +127,8 @@ namespace fccs {
 			void Compile();
 			void Execute();
 		};
-		typedef SharedPtr<IFrameGraph> FrameGraphHandle;
-		FCCS_API FrameGraphHandle CreateFrameGraph(rhi::IDevice* pDevice);
+
+		//FCCS_API FrameGraphHandle CreateFrameGraph(rhi::IDevice* pDevice);
 	}
 
 	namespace window {
@@ -147,7 +139,6 @@ namespace fccs {
 			virtual D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept = 0;
 			virtual void Present(uint32_t sync) = 0;
 		};
-		typedef SharedPtr<ISwapChain> SwapChainHandle;
 
 		struct SwapChainDesc
 		{
@@ -155,23 +146,21 @@ namespace fccs {
 			uint32_t height;
 			HWND hwnd;
 		};
-		FCCS_API SwapChainHandle CreateSwapChain(const SwapChainDesc& desc, rhi::ICommandQueue* pQueue);
+		FCCS_API ISwapChain* CreateSwapChain(const SwapChainDesc& desc, rhi::ICommandQueue* pQueue);
 
 		struct WindowDesc
 		{
-			uint32_t width = 800;
-			uint32_t height = 600;
-			std::wstring title = L"fccs";
+			uint32_t width;
+			uint32_t height;
+			std::wstring title;
 		};
 
 		class IWindow : public IResource {
 		public:
-			IWindow(const WindowDesc& desc);
 			HWND GetHWND() const noexcept;
 			void OpenWindow();
-			virtual void Run() = 0;
 		private:
 		};
-
+		FCCS_API IWindow* CreateFCCSWindow(const WindowDesc& desc);
 	}
 }
