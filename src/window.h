@@ -8,7 +8,7 @@ namespace fccs {
 			Window(const WindowDesc& desc);
 			void OpenWindow();
 
-			HWND GetHWND() const {
+			HWND GetHWND() const noexcept {
 				return m_hwnd;
 			}
 			WindowDesc m_Desc;

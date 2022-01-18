@@ -157,8 +157,8 @@ namespace fccs {
 
 		class IWindow : public IResource {
 		public:
-			HWND GetHWND() const noexcept;
-			void OpenWindow();
+			virtual HWND GetHWND() const noexcept = 0;
+			virtual void OpenWindow() = 0;
 		private:
 		};
 		FCCS_API IWindow* CreateFCCSWindow(const WindowDesc& desc);
