@@ -1,4 +1,6 @@
 #pragma once
+#include <fccs/rhi.h>
+#include <wrl.h>
 namespace fccs {
 	namespace rhi {
 		class CommandQueue : public ICommandQueue {
