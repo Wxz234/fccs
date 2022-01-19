@@ -33,7 +33,9 @@ constexpr _BITMASK& operator^=(_BITMASK& _Left, _BITMASK _Right) noexcept { /* r
 [[nodiscard]] constexpr _BITMASK operator~(_BITMASK _Left) noexcept { /* return ~_Left */							\
     using _IntTy = ::std::underlying_type_t<_BITMASK>;																\
     return static_cast<_BITMASK>(~static_cast<_IntTy>(_Left));														\
-}    
+} 
+
+#define FCCSGLOBALCONST constexpr
 
 namespace fccs {
     class IResource {
@@ -53,5 +55,4 @@ namespace fccs {
         bool operator ==(const Color& _b) const { return r == _b.r && g == _b.g && b == _b.b && a == _b.a; }
         bool operator !=(const Color& _b) const { return !(*this == _b); }
     };
-
 }
