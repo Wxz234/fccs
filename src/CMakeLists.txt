@@ -8,6 +8,7 @@ add_library(fccs STATIC
 "swapchain.cpp"
 "format.cpp"
 "framegraph.cpp"
+"texture.cpp"
 )
 
 target_include_directories(fccs PUBLIC "${PROJECT_SOURCE_DIR}/include")
