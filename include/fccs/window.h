@@ -8,9 +8,9 @@ namespace fccs {
 
 		struct WindowDesc
 		{
-			uint32_t width;
-			uint32_t height;
-			std::wstring title;
+			uint32_t width = 800;
+			uint32_t height = 600;
+			std::wstring title = L"fccs";
 		};
 
 		class IWindow : public IResource {

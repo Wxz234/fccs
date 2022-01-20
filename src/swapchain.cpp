@@ -87,8 +87,8 @@ namespace fccs {
 			++m_fenceValues[m_frameIndex];
 		}
 
-		FCCS_API ISwapChain* CreateSwapChain(ICommandQueue* pQueue, const SwapChainDesc& desc) {
-			return new SwapChain((ID3D12CommandQueue*)pQueue->GetNativePtr(), desc.hwnd, desc.width, desc.height);
+		FCCS_API ISwapChain* CreateSwapChain(ICommandQueue* pQueue, uint32_t width, uint32_t height, HWND hwnd) {
+			return new SwapChain((ID3D12CommandQueue*)pQueue->GetNativePtr(), hwnd, width, height);
 		}
 	}
 }

@@ -149,12 +149,6 @@ namespace fccs {
 			virtual void Present(uint32_t sync) = 0;
 		};
 
-		struct SwapChainDesc
-		{
-			uint32_t width;
-			uint32_t height;
-			HWND hwnd;
-		};
-		FCCS_API ISwapChain* CreateSwapChain(ICommandQueue* pQueue, const SwapChainDesc& desc);
+        FCCS_API ISwapChain* CreateSwapChain(ICommandQueue* pQueue, uint32_t width, uint32_t height, HWND hwnd);
 	}
 }
