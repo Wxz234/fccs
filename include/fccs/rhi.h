@@ -1,6 +1,5 @@
 #pragma once
 #include "core.h"
-#include <string>
 #include <cstdint>
 #include <d3d12.h>
 #include <windef.h>
@@ -118,60 +117,6 @@ namespace fccs {
 			Copy,
 		};
 
-        enum class TextureDimension : uint8_t
-        {
-            Unknown,
-            Texture1D,
-            Texture1DArray,
-            Texture2D,
-            Texture2DArray,
-            TextureCube,
-            TextureCubeArray,
-            Texture2DMS,
-            Texture2DMSArray,
-            Texture3D
-        };
-
-        struct TextureDesc
-        {
-            uint32_t width = 1;
-            uint32_t height = 1;
-            uint32_t depth = 1;
-            uint32_t arraySize = 1;
-            uint32_t mipLevels = 1;
-            uint32_t sampleCount = 1;
-            uint32_t sampleQuality = 0;
-            Format format = Format::UNKNOWN;
-            TextureDimension dimension = TextureDimension::Texture2D;
-            bool isRenderTarget = false;
-            bool isUAV = false;
-            bool isTypeless = false;
-            Color clearValue;
-            bool useClearValue = false;
-            ResourceStates initialState = ResourceStates::Unknown;
-
-            constexpr TextureDesc& setWidth(uint32_t value) { width = value; return *this; }
-            constexpr TextureDesc& setHeight(uint32_t value) { height = value; return *this; }
-            constexpr TextureDesc& setDepth(uint32_t value) { depth = value; return *this; }
-            constexpr TextureDesc& setArraySize(uint32_t value) { arraySize = value; return *this; }
-            constexpr TextureDesc& setMipLevels(uint32_t value) { mipLevels = value; return *this; }
-            constexpr TextureDesc& setSampleCount(uint32_t value) { sampleCount = value; return *this; }
-            constexpr TextureDesc& setSampleQuality(uint32_t value) { sampleQuality = value; return *this; }
-            constexpr TextureDesc& setFormat(Format value) { format = value; return *this; }
-            constexpr TextureDesc& setDimension(TextureDimension value) { dimension = value; return *this; }
-            constexpr TextureDesc& setIsRenderTarget(bool value) { isRenderTarget = value; return *this; }
-            constexpr TextureDesc& setIsUAV(bool value) { isUAV = value; return *this; }
-            constexpr TextureDesc& setIsTypeless(bool value) { isTypeless = value; return *this; }
-            constexpr TextureDesc& setClearValue(const Color& value) { clearValue = value; useClearValue = true; return *this; }
-            constexpr TextureDesc& setUseClearValue(bool value) { useClearValue = value; return *this; }
-            constexpr TextureDesc& setInitialState(ResourceStates value) { initialState = value; return *this; }
-        };
-
-
-        class ITexture : public IRHIObject {
-
-        };
-
 		class ICommandList : public IRHIObject {
 		public:
 			virtual void Open() = 0;
@@ -190,7 +135,6 @@ namespace fccs {
 
 		class IDevice : public IRHIObject {
 		public:
-            //virtual ITexture* CreateTexture()
 			virtual ICommandList* CreateCommandList(CommandQueueType type) = 0;
 			virtual ICommandQueue* CreateCommandQueue(CommandQueueType type) = 0;
 		};
@@ -207,9 +151,9 @@ namespace fccs {
 
 		struct SwapChainDesc
 		{
-			uint32_t width = 800;
-			uint32_t height = 600;
-			HWND hwnd = nullptr;
+			uint32_t width;
+			uint32_t height;
+			HWND hwnd;
 		};
 		FCCS_API ISwapChain* CreateSwapChain(ICommandQueue* pQueue, const SwapChainDesc& desc);
 	}
