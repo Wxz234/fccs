@@ -1,6 +1,8 @@
 #pragma once
 #include <fccs/rhi.h>
 #include <wrl/client.h>
+#include <vector>
+#include "texture.h"
 namespace fccs {
 	namespace rhi {
 		class CommandList : public ICommandList {

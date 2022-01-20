@@ -7,7 +7,7 @@ namespace fccs{
 		public:
 			Device(const DeviceDesc& desc);
 			~Device();
-
+			ITexture* CreateTexture(const TextureDesc& desc);
 			ICommandList* CreateCommandList(CommandQueueType type);
 			ICommandQueue* CreateCommandQueue(CommandQueueType type);
 			void waitForIdle();

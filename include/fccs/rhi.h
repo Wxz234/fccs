@@ -136,37 +136,30 @@ namespace fccs {
             uint32_t sampleQuality = 0;
             Format format = Format::UNKNOWN;
             TextureDimension dimension = TextureDimension::Texture2D;
-
             bool isRenderTarget = false;
             bool isUAV = false;
             bool isTypeless = false;
-
-
             Color clearValue;
             bool useClearValue = false;
+            ResourceStates initialState = ResourceStates::Common;
 
-            ResourceStates initialState = ResourceStates::Unknown;
-
-            constexpr TextureDesc& setWidth(uint32_t value) { width = value; return *this; }
-            constexpr TextureDesc& setHeight(uint32_t value) { height = value; return *this; }
-            constexpr TextureDesc& setDepth(uint32_t value) { depth = value; return *this; }
-            constexpr TextureDesc& setArraySize(uint32_t value) { arraySize = value; return *this; }
-            constexpr TextureDesc& setMipLevels(uint32_t value) { mipLevels = value; return *this; }
-            constexpr TextureDesc& setSampleCount(uint32_t value) { sampleCount = value; return *this; }
-            constexpr TextureDesc& setSampleQuality(uint32_t value) { sampleQuality = value; return *this; }
-            constexpr TextureDesc& setFormat(Format value) { format = value; return *this; }
-            constexpr TextureDesc& setDimension(TextureDimension value) { dimension = value; return *this; }
-            constexpr TextureDesc& setIsRenderTarget(bool value) { isRenderTarget = value; return *this; }
-            constexpr TextureDesc& setIsUAV(bool value) { isUAV = value; return *this; }
-            constexpr TextureDesc& setIsTypeless(bool value) { isTypeless = value; return *this; }
-            constexpr TextureDesc& setClearValue(const Color& value) { clearValue = value; useClearValue = true; return *this; }
-            constexpr TextureDesc& setUseClearValue(bool value) { useClearValue = value; return *this; }
-            constexpr TextureDesc& setInitialState(ResourceStates value) { initialState = value; return *this; }
-            constexpr TextureDesc& setKeepInitialState(bool value) { keepInitialState = value; return *this; }
+            constexpr TextureDesc& SetWidth(uint32_t value) { width = value; return *this; }
+            constexpr TextureDesc& SetHeight(uint32_t value) { height = value; return *this; }
+            constexpr TextureDesc& SetDepth(uint32_t value) { depth = value; return *this; }
+            constexpr TextureDesc& SetArraySize(uint32_t value) { arraySize = value; return *this; }
+            constexpr TextureDesc& SetMipLevels(uint32_t value) { mipLevels = value; return *this; }
+            constexpr TextureDesc& SetSampleCount(uint32_t value) { sampleCount = value; return *this; }
+            constexpr TextureDesc& SetSampleQuality(uint32_t value) { sampleQuality = value; return *this; }
+            constexpr TextureDesc& SetFormat(Format value) { format = value; return *this; }
+            constexpr TextureDesc& SetDimension(TextureDimension value) { dimension = value; return *this; }
+            constexpr TextureDesc& SetIsRenderTarget(bool value) { isRenderTarget = value; return *this; }
+            constexpr TextureDesc& SetIsUAV(bool value) { isUAV = value; return *this; }
+            constexpr TextureDesc& SetIsTypeless(bool value) { isTypeless = value; return *this; }
+            constexpr TextureDesc& SetClearValue(const Color& value) { clearValue = value; useClearValue = true; return *this; }
+            constexpr TextureDesc& SetUseClearValue(bool value) { useClearValue = value; return *this; }
+            constexpr TextureDesc& SetInitialState(ResourceStates value) { initialState = value; return *this; }
         };
-        class ITexture : public IRHIObject {
-            virtual const TextureDesc& GetDesc() const = 0;
-        };
+        class ITexture : public IRHIObject {};
 		enum class CommandQueueType : uint8_t
 		{
 			Graphics = 0,
@@ -192,6 +185,7 @@ namespace fccs {
 
 		class IDevice : public IRHIObject {
 		public:
+            virtual ITexture* CreateTexture(const TextureDesc& desc) = 0;
 			virtual ICommandList* CreateCommandList(CommandQueueType type) = 0;
 			virtual ICommandQueue* CreateCommandQueue(CommandQueueType type) = 0;
 		};

@@ -17,7 +17,9 @@ namespace fccs {
 
 		void Device::waitForIdle() {}
 
-
+		ITexture* CreateTexture(const TextureDesc& desc){
+			return nullptr;
+		}
 
 		ICommandList* Device::CreateCommandList(CommandQueueType type) {
 			return new CommandList(m_device.Get(), type);
