@@ -141,7 +141,7 @@ namespace fccs {
             bool isTypeless = false;
             Color clearValue;
             bool useClearValue = false;
-            ResourceStates initialState = ResourceStates::Common;
+            ResourceStates initialState = ResourceStates::Unknown;
 
             constexpr TextureDesc& SetWidth(uint32_t value) { width = value; return *this; }
             constexpr TextureDesc& SetHeight(uint32_t value) { height = value; return *this; }

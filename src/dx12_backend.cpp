@@ -95,7 +95,7 @@ namespace fccs {
 		}
 	};
 
-	CmdAllocatorPool cmd_Pool;
+	static CmdAllocatorPool cmd_Pool;
 
 	ID3D12CommandAllocator* getCommandAllocatorInPool(ID3D12Device* pDevice, rhi::CommandQueueType type) {
 		return cmd_Pool.getCanUseAllocatorByDeviceAndType(pDevice, type);
@@ -120,6 +120,12 @@ namespace fccs {
 	}
 
 	namespace rhi {
+		D3D12_RESOURCE_DESC convertTextureDesc(const TextureDesc& d) {
+			D3D12_RESOURCE_DESC desc = {};
+
+			return desc;
+		}
+
 		D3D12_RESOURCE_STATES convertResourceStates(ResourceStates stateBits)
 		{
 			if (stateBits == ResourceStates::Common)

@@ -2,6 +2,7 @@
 #include "dx12_backend.h"
 #include "commandlist.h"
 #include "commandqueue.h"
+#include "texture.h"
 namespace fccs {
 	namespace rhi {
 
@@ -17,7 +18,13 @@ namespace fccs {
 
 		void Device::waitForIdle() {}
 
-		ITexture* CreateTexture(const TextureDesc& desc){
+		ITexture* Device::CreateTexture(const TextureDesc& desc){
+			D3D12_HEAP_PROPERTIES heapProps = {};
+			heapProps.Type = D3D12_HEAP_TYPE_DEFAULT;
+			//m_device->CreateCommittedResource(
+			//	&heapProps,
+			//	D3D12_HEAP_FLAG_NONE
+			//);
 			return nullptr;
 		}
 

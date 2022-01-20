@@ -10,6 +10,7 @@ namespace fccs {
 	void addCommandAllocatorRefCount();
 	void releaseCommandAllocatorRef();
 	namespace rhi {
+		D3D12_RESOURCE_DESC convertTextureDesc(const TextureDesc& d);
 		D3D12_RESOURCE_STATES convertResourceStates(ResourceStates stateBits);
 	}
 }

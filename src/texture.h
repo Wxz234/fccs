@@ -8,6 +8,10 @@ namespace fccs {
 			Texture(ID3D12Resource* resource, const TextureDesc& desc) :m_res(resource),m_desc(desc) {
 				
 			}
+
+			void* GetNativePtr() const noexcept {
+				return m_res.Get();
+			}
 			Microsoft::WRL::ComPtr<ID3D12Resource> m_res;
 			TextureDesc m_desc;
 		};
