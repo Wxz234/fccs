@@ -141,22 +141,6 @@ namespace fccs {
             Color clearValue;
             bool useClearValue = false;
             ResourceStates initialState = ResourceStates::Unknown;
-
-            constexpr TextureDesc& SetWidth(uint32_t value) { width = value; return *this; }
-            constexpr TextureDesc& SetHeight(uint32_t value) { height = value; return *this; }
-            constexpr TextureDesc& SetDepth(uint32_t value) { depth = value; return *this; }
-            constexpr TextureDesc& SetArraySize(uint32_t value) { arraySize = value; return *this; }
-            constexpr TextureDesc& SetMipLevels(uint32_t value) { mipLevels = value; return *this; }
-            constexpr TextureDesc& SetSampleCount(uint32_t value) { sampleCount = value; return *this; }
-            constexpr TextureDesc& SetSampleQuality(uint32_t value) { sampleQuality = value; return *this; }
-            constexpr TextureDesc& SetFormat(Format value) { format = value; return *this; }
-            constexpr TextureDesc& SetDimension(TextureDimension value) { dimension = value; return *this; }
-            constexpr TextureDesc& SetIsRenderTarget(bool value) { isRenderTarget = value; return *this; }
-            constexpr TextureDesc& SetIsUAV(bool value) { isUAV = value; return *this; }
-            constexpr TextureDesc& SetIsTypeless(bool value) { isTypeless = value; return *this; }
-            constexpr TextureDesc& SetClearValue(const Color& value) { clearValue = value; useClearValue = true; return *this; }
-            constexpr TextureDesc& SetUseClearValue(bool value) { useClearValue = value; return *this; }
-            constexpr TextureDesc& SetInitialState(ResourceStates value) { initialState = value; return *this; }
         };
         class ITexture : public IRHIObject {};
 		enum class CommandQueueType : uint8_t
