@@ -121,6 +121,27 @@ namespace fccs {
 	}
 
 	namespace rhi {
+		D3D12_CLEAR_VALUE convertTextureClearValue(const TextureDesc& d) {
+			const auto& formatMapping = getDxgiFormatMapping(d.format);
+			//const FormatInfo& formatInfo = getFormatInfo(d.format);
+			D3D12_CLEAR_VALUE clearValue = {};
+			clearValue.Format = formatMapping.rtvFormat;
+			if (d.format == Format::D16 || d.format == Format::D24S8 || d.format == Format::X24G8_UINT || d.format == Format::D32 || d.format == Format::D32S8 || d.format == Format::X32G8_UINT)
+			{
+				clearValue.DepthStencil.Depth = d.clearValue.r;
+				clearValue.DepthStencil.Stencil = UINT8(d.clearValue.g);
+			}
+			else
+			{
+				clearValue.Color[0] = d.clearValue.r;
+				clearValue.Color[1] = d.clearValue.g;
+				clearValue.Color[2] = d.clearValue.b;
+				clearValue.Color[3] = d.clearValue.a;
+			}
+
+			return clearValue;
+		}
+
 		D3D12_RESOURCE_DESC convertTextureDesc(const TextureDesc& d) {
 
 			const auto& formatMapping = getDxgiFormatMapping(d.format);

@@ -18,14 +18,20 @@ namespace fccs {
 
 		void Device::waitForIdle() {}
 
-		ITexture* Device::CreateTexture(const TextureDesc& desc){
+		ITexture* Device::CreateTexture(const TextureDesc& d){
 			D3D12_HEAP_PROPERTIES heapProps = {};
 			heapProps.Type = D3D12_HEAP_TYPE_DEFAULT;
-			//m_device->CreateCommittedResource(
-			//	&heapProps,
-			//	D3D12_HEAP_FLAG_NONE
-			//);
-			return nullptr;
+			auto resourceDesc = convertTextureDesc(d);
+			D3D12_CLEAR_VALUE clearValue = convertTextureClearValue(d);
+			Microsoft::WRL::ComPtr<ID3D12Resource> resource;
+			m_device->CreateCommittedResource(
+				&heapProps,
+				D3D12_HEAP_FLAG_NONE,
+				&resourceDesc,
+				convertResourceStates(d.initialState),
+				d.useClearValue ? &clearValue : nullptr,
+				IID_PPV_ARGS(&resource));
+			return new Texture(resource.Get(), d);
 		}
 
 		ICommandList* Device::CreateCommandList(CommandQueueType type) {
