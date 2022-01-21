@@ -1,4 +1,5 @@
 #include "dx12_backend.h"
+#include "format.h"
 #include <Windows.h>
 #include <wrl/client.h>
 #include <mutex>
@@ -121,11 +122,14 @@ namespace fccs {
 
 	namespace rhi {
 		D3D12_RESOURCE_DESC convertTextureDesc(const TextureDesc& d) {
+
+			const auto& formatMapping = getDxgiFormatMapping(d.format);
+
 			D3D12_RESOURCE_DESC desc = {};
 			desc.Width = d.width;
 			desc.Height = d.height;
 			desc.MipLevels = UINT16(d.mipLevels);
-			//desc.Format = d.isTypeless ? formatMapping.resourceFormat : formatMapping.rtvFormat;
+			desc.Format = d.isTypeless ? formatMapping.resourceFormat : formatMapping.rtvFormat;
 			desc.SampleDesc.Count = d.sampleCount;
 			desc.SampleDesc.Quality = d.sampleQuality;
 
@@ -149,19 +153,22 @@ namespace fccs {
 				desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE3D;
 				desc.DepthOrArraySize = UINT16(d.depth);
 				break;
-			case TextureDimension::Unknown:
-			default:
-				//todo error
-				break;
+			//case TextureDimension::Unknown:
+			//default:
+			//	//todo error
+			//	
+			//	break;
 			}
 
-			//if (d.isRenderTarget)
-			//{
-			//	if (formatInfo.hasDepth || formatInfo.hasStencil)
-			//		desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
-			//	else
-			//		desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
-			//}
+			if (d.isRenderTarget)
+			{
+				if (d.format == Format::D16 || d.format == Format::D24S8 || d.format == Format::X24G8_UINT || d.format == Format::D32 || d.format == Format::D32S8 || d.format == Format::X32G8_UINT) {
+					desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+				}
+				else {
+					desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+				}
+			}
 
 			if (d.isUAV)
 				desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;

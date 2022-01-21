@@ -113,7 +113,6 @@ namespace fccs {
 
         enum class TextureDimension : uint8_t
         {
-            Unknown,
             Texture1D,
             Texture1DArray,
             Texture2D,
