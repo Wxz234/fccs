@@ -122,6 +122,49 @@ namespace fccs {
 	namespace rhi {
 		D3D12_RESOURCE_DESC convertTextureDesc(const TextureDesc& d) {
 			D3D12_RESOURCE_DESC desc = {};
+			desc.Width = d.width;
+			desc.Height = d.height;
+			desc.MipLevels = UINT16(d.mipLevels);
+			//desc.Format = d.isTypeless ? formatMapping.resourceFormat : formatMapping.rtvFormat;
+			desc.SampleDesc.Count = d.sampleCount;
+			desc.SampleDesc.Quality = d.sampleQuality;
+
+			switch (d.dimension)
+			{
+			case TextureDimension::Texture1D:
+			case TextureDimension::Texture1DArray:
+				desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE1D;
+				desc.DepthOrArraySize = UINT16(d.arraySize);
+				break;
+			case TextureDimension::Texture2D:
+			case TextureDimension::Texture2DArray:
+			case TextureDimension::TextureCube:
+			case TextureDimension::TextureCubeArray:
+			case TextureDimension::Texture2DMS:
+			case TextureDimension::Texture2DMSArray:
+				desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+				desc.DepthOrArraySize = UINT16(d.arraySize);
+				break;
+			case TextureDimension::Texture3D:
+				desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE3D;
+				desc.DepthOrArraySize = UINT16(d.depth);
+				break;
+			case TextureDimension::Unknown:
+			default:
+				//todo error
+				break;
+			}
+
+			//if (d.isRenderTarget)
+			//{
+			//	if (formatInfo.hasDepth || formatInfo.hasStencil)
+			//		desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+			//	else
+			//		desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+			//}
+
+			if (d.isUAV)
+				desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
 			return desc;
 		}
