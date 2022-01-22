@@ -152,6 +152,7 @@ namespace fccs {
 
 		class ICommandList : public IRHIObject {
 		public:
+            virtual void ChangeTextureState(ITexture* pTexure, ResourceStates state) = 0;
 			virtual void Open() = 0;
 			virtual void Close() = 0;
 		};
