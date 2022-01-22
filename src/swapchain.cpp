@@ -1,4 +1,5 @@
 #include "swapchain.h"
+#include "texture.h"
 #include "dx12_backend.h"
 namespace fccs {
 	namespace rhi {
@@ -48,7 +49,7 @@ namespace fccs {
 			for (uint32_t n = 0; n < FCCS_SWAPCHAIN_NUM; ++n)
 			{
 				m_swapchain->GetBuffer(n, IID_PPV_ARGS(m_Resource[n].GetAddressOf()));
-
+				m_tex.emplace_back(new SwapChainTexture(m_Resource[n].Get()));
 				m_rtvDescriptorSize = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 				D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptor = m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 				rtvDescriptor.ptr = SIZE_T(INT64(rtvDescriptor.ptr) + INT64(n) * INT64(m_rtvDescriptorSize));
@@ -65,6 +66,10 @@ namespace fccs {
 			D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptor = m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 			rtvDescriptor.ptr = SIZE_T(INT64(rtvDescriptor.ptr) + INT64(n) * INT64(m_rtvDescriptorSize));
 			return rtvDescriptor;
+		}
+
+		ITexture* SwapChain::GetTexture(uint32_t n) const noexcept {
+			return m_tex[n];
 		}
 
 		void SwapChain::Present(uint32_t sync) {
@@ -85,6 +90,10 @@ namespace fccs {
 			m_fence->SetEventOnCompletion(m_fenceValues[m_frameIndex], m_event.Get());
 			WaitForSingleObjectEx(m_event.Get(), INFINITE, FALSE);
 			++m_fenceValues[m_frameIndex];
+
+			for (uint32_t n = 0; n < FCCS_SWAPCHAIN_NUM; ++n) {
+				DestroyResource(m_tex[n]);
+			}
 		}
 
 		FCCS_API ISwapChain* CreateSwapChain(ICommandQueue* pQueue, uint32_t width, uint32_t height, HWND hwnd) {

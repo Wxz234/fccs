@@ -34,5 +34,20 @@ namespace fccs {
 			std::vector<ID3D12DescriptorHeap*> m_dsv;
 			TextureDesc m_desc;
 		};
+
+
+		class SwapChainTexture : public ITexture {
+		public:
+			SwapChainTexture(ID3D12Resource* resource) : m_res(resource) {}
+
+			void* GetNativePtr() const noexcept {
+				return m_res.Get();
+			}
+
+			Microsoft::WRL::ComPtr<ID3D12Resource> m_res;
+
+		};
 	}
+
+
 }

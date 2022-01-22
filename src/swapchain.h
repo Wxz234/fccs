@@ -12,6 +12,7 @@ namespace fccs {
 		public:
 			SwapChain(ID3D12CommandQueue* pQueue, HWND hwnd, uint32_t width, uint32_t height);
 			uint32_t GetCurrentBackBufferIndex() const noexcept;
+			ITexture* GetTexture(uint32_t n) const noexcept;
 			ID3D12Resource* GetNativeResourcePtr(uint32_t n) const noexcept;
 			D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetView(uint32_t n) const noexcept;
 			void Present(uint32_t sync);
@@ -28,6 +29,8 @@ namespace fccs {
 			Microsoft::WRL::ComPtr<ID3D12Resource> m_Resource[FCCS_SWAPCHAIN_NUM];
 			Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_rtvDescriptorHeap;
 			uint32_t m_rtvDescriptorSize;
+			//
+			std::vector<ITexture*> m_tex;
 		};
 	}
 }
