@@ -92,7 +92,7 @@ namespace fccs {
 			++m_fenceValues[m_frameIndex];
 
 			for (uint32_t n = 0; n < FCCS_SWAPCHAIN_NUM; ++n) {
-				DestroyResource(m_tex[n]);
+				delete m_tex[n];
 			}
 		}
 
