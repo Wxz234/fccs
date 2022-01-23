@@ -38,8 +38,9 @@ namespace fccs {
 				barrier.Transition.StateBefore = convertResourceStates(m_texture_state[pTexure]);
 
 			m_texture_state[pTexure] = state;
-
-			m_mainLists->ResourceBarrier(1, &barrier);
+			if (barrier.Transition.StateBefore != barrier.Transition.StateAfter) {
+				m_mainLists->ResourceBarrier(1, &barrier);
+			}
 		}
 
 		void CommandList::Open() {
@@ -56,7 +57,9 @@ namespace fccs {
 				barrier.Transition.StateBefore = convertResourceStates(state.second);
 				barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_COMMON;
 				barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-				m_mainLists->ResourceBarrier(1, &barrier);
+				if (barrier.Transition.StateBefore != barrier.Transition.StateAfter) {
+					m_mainLists->ResourceBarrier(1, &barrier);
+				}
 			}
 
 			m_texture_state.clear();
