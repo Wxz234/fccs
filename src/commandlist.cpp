@@ -1,4 +1,5 @@
 #include "commandlist.h"
+#include "texture.h"
 #include "dx12_backend.h"
 namespace fccs {
 	namespace rhi {
@@ -26,6 +27,7 @@ namespace fccs {
 
 		void CommandList::ChangeTextureState(ITexture* pTexure, ResourceStates state) {
 			ID3D12Resource* res = (ID3D12Resource*)pTexure->GetNativePtr();
+			TextureInterface* _texture = dynamic_cast<TextureInterface*>(pTexure);
 			D3D12_RESOURCE_BARRIER barrier = {};
 			barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 			barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
@@ -33,7 +35,7 @@ namespace fccs {
 			barrier.Transition.StateAfter = convertResourceStates(state);
 			barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 			if (m_texture_state.find(pTexure) == m_texture_state.end())
-				barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COMMON;
+				barrier.Transition.StateBefore = convertResourceStates(_texture->GetInitialState());
 			else
 				barrier.Transition.StateBefore = convertResourceStates(m_texture_state[pTexure]);
 
@@ -50,12 +52,13 @@ namespace fccs {
 
 		void CommandList::Close() {
 			for (auto state: m_texture_state) {
+				TextureInterface* _texture = dynamic_cast<TextureInterface*>(state.first);
 				D3D12_RESOURCE_BARRIER barrier = {};
 				barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 				barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 				barrier.Transition.pResource = (ID3D12Resource*)state.first->GetNativePtr();
 				barrier.Transition.StateBefore = convertResourceStates(state.second);
-				barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_COMMON;
+				barrier.Transition.StateAfter = convertResourceStates(_texture->GetInitialState());
 				barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 				if (barrier.Transition.StateBefore != barrier.Transition.StateAfter) {
 					m_mainLists->ResourceBarrier(1, &barrier);

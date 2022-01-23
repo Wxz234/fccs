@@ -49,6 +49,7 @@ namespace fccs {
 			for (uint32_t n = 0; n < FCCS_SWAPCHAIN_NUM; ++n)
 			{
 				m_swapchain->GetBuffer(n, IID_PPV_ARGS(m_Resource[n].GetAddressOf()));
+
 				m_tex.emplace_back(new SwapChainTexture(m_Resource[n].Get()));
 				m_rtvDescriptorSize = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 				D3D12_CPU_DESCRIPTOR_HANDLE rtvDescriptor = m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
