@@ -43,6 +43,13 @@ namespace fccs {
 			if (barrier.Transition.StateBefore != barrier.Transition.StateAfter) {
 				m_mainLists->ResourceBarrier(1, &barrier);
 			}
+			else if(barrier.Transition.StateBefore == D3D12_RESOURCE_STATE_UNORDERED_ACCESS) {
+				D3D12_RESOURCE_BARRIER uavBarrier = {};
+				uavBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+				uavBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+				uavBarrier.UAV.pResource = res;
+				m_mainLists->ResourceBarrier(1, &uavBarrier);
+			}
 		}
 
 		void CommandList::Open() {
