@@ -142,7 +142,10 @@ namespace fccs {
             bool useClearValue = false;
             ResourceStates initialState = ResourceStates::Unknown;
         };
-        class ITexture : public IRHIObject {};
+
+        class ITexture : public IRHIObject {
+            
+        };
 		enum class CommandQueueType : uint8_t
 		{
 			Graphics = 0,
